@@ -3,5 +3,8 @@ notifications:
   email:
     recipients:
       - 123jan321ciechan@gmail.com
-    on_success: never # default: change
+      - lukasz_fratczak@wp.pl
+      - p.sztuczka@g.loiv.torun.pl
+      - zzhozann@gmail.com
+    on_success: never 
     on_failure: always
