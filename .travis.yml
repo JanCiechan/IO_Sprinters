@@ -1,1 +1,7 @@
 language: Java
+notifications:
+  email:
+    recipients:
+      - 123jan321ciechan@gmail.com
+    on_success: never # default: change
+    on_failure: always
