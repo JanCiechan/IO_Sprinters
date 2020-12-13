@@ -61,7 +61,7 @@ public class LocationController {
         float result=0;
         for(Level item:levelList){
             if(id==item.getId()){
-               result+=item.getarea();
+               result+=item.getArea();
                break;
             }
         }

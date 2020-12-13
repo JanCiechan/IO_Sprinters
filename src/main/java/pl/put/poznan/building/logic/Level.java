@@ -20,7 +20,7 @@ public class Level extends Location {
             }
         }
 
-    public float getarea(){
+    public float getArea(){
             float result=0;
             for (Room item:RoomList){
 
