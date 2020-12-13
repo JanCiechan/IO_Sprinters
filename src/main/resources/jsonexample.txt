@@ -1,0 +1,59 @@
+﻿[
+  {
+    "id": 1,
+    "name": "pokoj1",
+    "type": "Room",
+    "Levelid": 5,
+    "area": 14,
+    "cube": 12.3,
+    "heating": 64.2,
+    "light": 12
+  },
+  {
+    "id": 2,
+    "name": "pokoj2",
+    "type": "Room",
+    "Levelid": 5,
+    "area": 12,
+    "cube": 11.3,
+    "heating": 34.2,
+    "light": 52
+  },
+  {
+    "id": 3,
+    "name": "pokoj3",
+    "type": "Room",
+    "Levelid": 5,
+    "area": 11,
+    "cube": 42.3,
+    "heating": 23.2,
+    "light": 32
+  },
+  {
+    "id": 4,
+    "name": "pokoj4",
+    "type": "Room",
+    "Levelid": 5,
+    "area": 14,
+    "cube": 12.3,
+    "heating": 64.2,
+    "light": 12
+  },
+  {
+    "id": 5,
+    "name": "level1",
+    "type": "Level",
+    "Buildingid": 7
+  },
+  {
+    "id": 6,
+    "name": "level2",
+    "type": "Level",
+    "Buildingid": 7
+  },
+  {
+    "id": 7,
+    "name": "Building",
+    "type": "Building"
+  }
+]

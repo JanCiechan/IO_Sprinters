@@ -47,7 +47,7 @@ public class BuildingInfoApplication {
         get.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                data = getDataFromRestApi();
+                data = getDataFromRestApi(tf.getText());
                 ta.setText(null);
                 ta.append(data);
             }
@@ -77,11 +77,12 @@ public class BuildingInfoApplication {
         frame.setVisible(true);
     }
 
-    private static String getDataFromRestApi(){
+    private static String getDataFromRestApi(String request){
         StringBuilder data = new StringBuilder("");
 
         try {
-            URL url = new URL("http://localhost:8080/application");
+
+            URL url = new URL("http://localhost:8080/application/"+request);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
