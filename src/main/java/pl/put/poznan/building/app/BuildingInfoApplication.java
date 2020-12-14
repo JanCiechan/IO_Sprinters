@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 public class BuildingInfoApplication {
 
     private static String data;
-    private static int GUIState = 0;
+
 
     public static void main(String[] args){
 
@@ -27,167 +27,9 @@ public class BuildingInfoApplication {
 
         System.setProperty("java.awt.headless", "false"); //Disables headless
 
-        JFrame frame = new JFrame("Building Info");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 450);
-
-        initGUI(frame);
-    }
-
-
-    private static String getDataFromRestApi(String request){
-        StringBuilder data = new StringBuilder();
-
-        try {
-
-            URL url = new URL("http://localhost:8080/application/"+request);
-
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.connect();
-
-            //Getting the response code
-            int responsecode = conn.getResponseCode();
-
-            if (responsecode != 200) {
-                throw new RuntimeException("HttpResponseCode: " + responsecode);
-            } else {
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(
-                        (conn.getInputStream()))); // Getting the response from the webservice
-
-                String output;
-                System.out.println("Output from Server .... \n");
-                while ((output = br.readLine()) != null) {
-                    // Instead of this, you could append all your response to a StringBuffer and use `toString()` to get the entire JSON response as a String.
-                    // This string json response can be parsed using any json library. Eg. GSON from Google.
-                    data.append(output);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return data.toString();
-    }
-
-    private static String postDataToRestApi(String jsonInputString){
-
-        StringBuilder result = new StringBuilder();
-
-        try {
-            URL url = new URL("http://localhost:8080/application");
-
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; utf-8");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setDoOutput(true);
-            conn.connect();
-
-            try (OutputStream os = conn.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-            try (BufferedReader br = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
-                String output;
-                while ((output = br.readLine()) != null) {
-                    result.append(output);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result.toString();
-    }
-
-    private static void initGUI(JFrame frame) {
-
-        JPanel panel = new JPanel();
-
-        JLabel label = new JLabel("Witaj Administratorze!");
-        label.setFont(new Font("Serif", Font.BOLD, 16));
-        JButton goBuildings = new JButton("Przejdz do bydynkow");
-        JButton addLocation = new JButton("Dodaj lokacje");
-        JButton getInfo = new JButton("Pobierz informacje");
-
-        GridBagLayout layout = new GridBagLayout();
-        panel.setLayout(layout);
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        label.setBorder(BorderFactory.createEmptyBorder(10,10,30,10));
-        goBuildings.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-        goBuildings.addActionListener(e -> {
-                    panel.removeAll();
-                    getBuildingGUI(frame);
-                });
-        addLocation.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-        getInfo.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-
-        gbc.insets = new Insets(5,5,5,5);
-
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(label);
-
-        gbc.gridy = 1;
-        panel.add(goBuildings, gbc);
-
-        gbc.gridy = 2;
-        panel.add(addLocation, gbc);
-
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(getInfo, gbc);
-
-        //Adding Components to the frame.
-        frame.getContentPane().add(BorderLayout.CENTER, panel);
-        frame.setVisible(true);
-    }
-
-    private static void getBuildingGUI( JFrame frame) {
-
-
-        JPanel bottomPanel = new JPanel();
-        JPanel upperPanel = new JPanel();
-        JLabel labelEnter = new JLabel("Enter JSON Text");
-        JTextArea ta = new JTextArea();
-        JLabel labelInfo = new JLabel("Output from server:");
-
-        ta.setLineWrap(true);
-        ta.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        JTextField tf = new JTextField(45);
-
-        tf.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        JButton get = new JButton("GET");
-        get.addActionListener(e -> {
-            data = getDataFromRestApi(tf.getText());
-            ta.setText(null);
-            ta.append(data);
-        });
-
-        JButton post = new JButton("POST");
-        post.addActionListener(e -> {
-            String jsonData = tf.getText();
-            data = postDataToRestApi(jsonData);
-            ta.setText(null);
-            ta.append(data);
-        });
-
-        upperPanel.add(labelInfo);
-        bottomPanel.add(labelEnter);
-        bottomPanel.add(tf);
-        bottomPanel.add(get);
-        bottomPanel.add(post);
-
-        //Adding Components to the frame.
-        frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
-        frame.getContentPane().add(BorderLayout.NORTH, upperPanel);
-        frame.getContentPane().add(BorderLayout.CENTER, ta);
-        frame.setVisible(true);
+        CustomCardLayout cardLayout = new CustomCardLayout();
+        cardLayout.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        cardLayout.setVisible(true);
     }
 
 }
