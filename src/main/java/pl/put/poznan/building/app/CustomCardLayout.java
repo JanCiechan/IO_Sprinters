@@ -17,9 +17,7 @@ public class CustomCardLayout extends JFrame {
 
     public CustomCardLayout(){
         connectionProvider = new ConnectionProvider();
-
-        AtomicInteger amount = new AtomicInteger();
-
+        JPanel mainPanel4 = new JPanel();
         JLabel buildingAmountLabel4 = new JLabel();
 
         setTitle("Building Info");
@@ -29,56 +27,22 @@ public class CustomCardLayout extends JFrame {
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
 
-        JPanel mainPanel1 = new JPanel();
-
-        JLabel label = new JLabel("Witaj Administratorze!");
-        label.setFont(new Font("Serif", Font.BOLD, 16));
-        JButton goBuildings = new JButton("Przejdz do bydynkow");
-        JButton addLocation = new JButton("Dodaj lokacje");
-        JButton getInfo = new JButton("Pobierz informacje");
-
-        GridBagLayout layout = new GridBagLayout();
-        mainPanel1.setLayout(layout);
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        label.setBorder(BorderFactory.createEmptyBorder(10,10,30,10));
-        goBuildings.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-        goBuildings.addActionListener(e -> {
+        MenuPanel menuPanel = new MenuPanel();
+        menuPanel.addGoBuildingsActionListener(e -> {
             cardLayout.show(cardPanel, "3");
         });
-        addLocation.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-        addLocation.addActionListener(e -> {
+        menuPanel.addAddLocationActionListener(e -> {
             cardLayout.show(cardPanel, "2");
         });
-        getInfo.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-        getInfo.addActionListener(e -> {
+        menuPanel.addGetInfoActionListener(e -> {
             cardLayout.show(cardPanel, "4");
             buildingAmountLabel4.setText(String.valueOf(countBuildings()));
         });
 
-        gbc.insets = new Insets(5,5,5,5);
-
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        mainPanel1.add(label);
-
-        gbc.gridy = 1;
-        mainPanel1.add(goBuildings, gbc);
-
-        gbc.gridy = 2;
-        mainPanel1.add(addLocation, gbc);
-
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel1.add(getInfo, gbc);
-
-
-
         JPanel mainPanel2 = new JPanel();
         JPanel panel = new JPanel();
         GridBagLayout layout2 = new GridBagLayout();
-        panel.setLayout(layout);
+        panel.setLayout(layout2);
         GridBagConstraints gbc2 = new GridBagConstraints();
 
         JPanel panelButtons = new JPanel();
@@ -109,20 +73,20 @@ public class CustomCardLayout extends JFrame {
         save.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         back.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
 
-        gbc.insets = new Insets(5,5,5,5);
+        gbc2.insets = new Insets(5,5,5,5);
 
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc2.fill = GridBagConstraints.HORIZONTAL;
+        gbc2.gridx = 0;
+        gbc2.gridy = 0;
         panel.add(label2);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        panel.add(buildingNameLabel, gbc);
+        gbc2.gridx = 0;
+        gbc2.gridy = 1;
+        panel.add(buildingNameLabel, gbc2);
 
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        panel.add(buildingNameTF, gbc);
+        gbc2.gridx = 1;
+        gbc2.gridy = 1;
+        panel.add(buildingNameTF, gbc2);
 
         gbcButtons.insets = new Insets(5,5,30,5);
         gbcButtons.gridx = 0;
@@ -178,7 +142,6 @@ public class CustomCardLayout extends JFrame {
         mainPanel3.add(bottomPanel);
 
 
-        JPanel mainPanel4 = new JPanel();
         GridBagLayout mainPanelLayout4 = new GridBagLayout();
         mainPanel4.setLayout(mainPanelLayout4);
         GridBagConstraints gbcMainPanel4 = new GridBagConstraints();
@@ -237,7 +200,7 @@ public class CustomCardLayout extends JFrame {
         gbcMainPanel4.gridy = 1;
         mainPanel4.add(panelButtons4, gbcMainPanel4);
 
-        cardPanel.add(mainPanel1,"1");
+        cardPanel.add(menuPanel,"1");
         cardPanel.add(mainPanel2,"2");
         cardPanel.add(mainPanel3,"3");
         cardPanel.add(mainPanel4,"4");
