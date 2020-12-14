@@ -5,13 +5,13 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class MenuPanel extends JPanel {
-    JLabel label;
+
     JButton goBuildings;
     JButton addLocation;
     JButton getInfo;
 
     public MenuPanel(){
-         label = new JLabel("Witaj Administratorze!");
+         JLabel label = new JLabel("Witaj Administratorze!");
          label.setFont(new Font("Serif", Font.BOLD, 16));
          goBuildings = new JButton("Przejdz do bydynkow");
          addLocation = new JButton("Dodaj lokacje");
