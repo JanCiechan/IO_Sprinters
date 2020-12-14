@@ -6,9 +6,10 @@ import java.awt.event.ActionListener;
 
 public class MenuPanel extends JPanel {
 
-    JButton goBuildings;
+    JButton serverOutputButton;
     JButton addLocation;
     JButton getInfo;
+    JButton goBuildings;
 
     public MenuPanel(){
          JLabel label = new JLabel("Witaj Administratorze!");
@@ -16,15 +17,17 @@ public class MenuPanel extends JPanel {
          goBuildings = new JButton("Przejdz do bydynkow");
          addLocation = new JButton("Dodaj lokacje");
          getInfo = new JButton("Pobierz informacje");
+         serverOutputButton = new JButton("Pokaz dane serwera");
 
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
 
         label.setBorder(BorderFactory.createEmptyBorder(10,10,30,10));
-        goBuildings.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        serverOutputButton.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         addLocation.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         getInfo.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        goBuildings.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
 
         gbc.insets = new Insets(5,5,5,5);
 
@@ -40,12 +43,14 @@ public class MenuPanel extends JPanel {
         this.add(addLocation, gbc);
 
         gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add(getInfo, gbc);
+
+        gbc.gridy = 4;
+        this.add(serverOutputButton, gbc);
     }
 
-    public void addGoBuildingsActionListener(ActionListener actionListener){
-        goBuildings.addActionListener(actionListener);
+    public void addServerOutputButtonActionListener(ActionListener actionListener){
+        serverOutputButton.addActionListener(actionListener);
     }
 
     public void addAddLocationActionListener(ActionListener actionListener){
@@ -54,5 +59,9 @@ public class MenuPanel extends JPanel {
 
     public void addGetInfoActionListener(ActionListener actionListener){
         getInfo.addActionListener(actionListener);
+    }
+
+    public void addGoBuildingsActionListener(ActionListener actionListener){
+        goBuildings.addActionListener(actionListener);
     }
 }

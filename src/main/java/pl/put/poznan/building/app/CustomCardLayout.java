@@ -7,6 +7,8 @@ import pl.put.poznan.building.logic.ConnectionProvider;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 
 public class CustomCardLayout extends JFrame {
 
@@ -28,14 +30,19 @@ public class CustomCardLayout extends JFrame {
 
         MenuPanel menuPanel = new MenuPanel();
         AddBuildingPanel addBuildingPanel = new AddBuildingPanel();
-        SelectLocationPanel selectLocationPanel = new SelectLocationPanel();
+        ServerOutputPanel serverOutputPanel = new ServerOutputPanel();
         GetInfoPanel getInfoPanel = new GetInfoPanel();
+        SelectLocationPanel selectLocationPanel = new SelectLocationPanel();
 
-        menuPanel.addGoBuildingsActionListener(e -> cardLayout.show(cardPanel, "3"));
+        menuPanel.addServerOutputButtonActionListener(e -> cardLayout.show(cardPanel, "3"));
         menuPanel.addAddLocationActionListener(e -> cardLayout.show(cardPanel, "2"));
         menuPanel.addGetInfoActionListener(e -> {
             cardLayout.show(cardPanel, "4");
             getInfoPanel.setBuildingAmountLabelText(String.valueOf(countBuildings()));
+        });
+        menuPanel.addGoBuildingsActionListener(e -> {
+            cardLayout.show(cardPanel, "5");
+            selectLocationPanel.setBuildingsNames(getBuildingNamesList());
         });
 
         addBuildingPanel.addSaveActionListener(e -> {
@@ -48,34 +55,53 @@ public class CustomCardLayout extends JFrame {
 
         addBuildingPanel.addBackActionListener(backActionListener);
 
-        selectLocationPanel.addGetActionListener(e -> {
-            data = ConnectionProvider.getDataFromRestApi(selectLocationPanel.getTf());
-            selectLocationPanel.setTa(data);
+        serverOutputPanel.addGetActionListener(e -> {
+            data = ConnectionProvider.getDataFromRestApi(serverOutputPanel.getTf());
+            serverOutputPanel.setTa(data);
         });
 
-        selectLocationPanel.addPostActionListener(e -> {
-            String jsonData = selectLocationPanel.getTf();
+        serverOutputPanel.addPostActionListener(e -> {
+            String jsonData = serverOutputPanel.getTf();
             data = ConnectionProvider.postDataToRestApi(jsonData);
-            selectLocationPanel.setTa(data);
+            serverOutputPanel.setTa(data);
         });
 
-        selectLocationPanel.addBackActionListener(backActionListener);
+        serverOutputPanel.addBackActionListener(backActionListener);
 
         getInfoPanel.addBackInfoActionListener(backActionListener);
 
+        selectLocationPanel.addBackInfoActionListener(backActionListener);
+
+
         cardPanel.add(menuPanel,"1");
         cardPanel.add(addBuildingPanel,"2");
-        cardPanel.add(selectLocationPanel,"3");
+        cardPanel.add(serverOutputPanel,"3");
         cardPanel.add(getInfoPanel,"4");
+        cardPanel.add(selectLocationPanel,"5");
 
         getContentPane().add(cardPanel, BorderLayout.CENTER);
     }
 
     private int countBuildings(){
+        Building[] buildings = getBuildings();
+        return buildings.length;
+    }
+
+    private Building[] getBuildings(){
         String json = ConnectionProvider.getDataFromRestApi("Location");
         Gson gson = new Gson();
-        Building[] userArray = gson.fromJson(json, Building[].class);
-        return userArray.length;
+        return gson.fromJson(json, Building[].class);
+    }
+
+
+    private ArrayList<String> getBuildingNamesList(){
+        ArrayList<String> buildingsNames = new ArrayList<>();
+        Building[] buildings = getBuildings();
+
+        for(Building b: buildings){
+            buildingsNames.add(b.getName());
+        }
+        return buildingsNames;
     }
 
 }
