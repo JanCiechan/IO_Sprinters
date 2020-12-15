@@ -6,26 +6,26 @@ import pl.put.poznan.building.logic.ConnectionProvider;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class SelectLocationPanel extends JPanel {
 
-    JButton addLocation;
-    JButton getInfo;
-    JButton goBuildings;
-    JButton back;
+    private final JButton addLocation;
+    private final JButton getInfo;
+    private final JButton goLevels;
+    private final JButton back;
     private ArrayList<String> buildingsNames;
-    JComboBox buildingsList;
-    JLabel label;
-    GridBagConstraints gbc;
+    private JComboBox buildingsList;
+    private final JLabel label;
+    private final GridBagConstraints gbc;
+    private int currentLocation;
 
     public SelectLocationPanel(){
         label = new JLabel("Wybierz budynek");
         label.setFont(new Font("Serif", Font.BOLD, 16));
 
-        goBuildings = new JButton("Przejdz do poziomow");
+        goLevels = new JButton("Przejdz do poziomow");
         addLocation = new JButton("Dodaj poziom");
         getInfo = new JButton("Pobierz informacje");
         back = new JButton("Wróć");
@@ -36,7 +36,7 @@ public class SelectLocationPanel extends JPanel {
         label.setBorder(BorderFactory.createEmptyBorder(10,10,30,10));
         addLocation.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         getInfo.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-        goBuildings.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        goLevels.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         back.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
 
         gbc.insets = new Insets(5,5,5,5);
@@ -68,6 +68,15 @@ public class SelectLocationPanel extends JPanel {
         if (buildingsNames.size() != 0){
             buildingsList = new JComboBox(buildingsNames.toArray());
             buildingsList.setSelectedIndex(buildingsNames.size()-1);
+            buildingsList.addActionListener(e -> {
+                JComboBox cb = (JComboBox)e.getSource();
+                String name = (String)cb.getSelectedItem();
+                for(Building b: buildings){
+                    if (b.getName().equals("name")){
+                        currentLocation = b.getId();
+                    }
+                }
+            });
         }
 
         gbc.gridx = 0;
@@ -80,7 +89,7 @@ public class SelectLocationPanel extends JPanel {
             this.add(buildingsList, gbc);
 
             gbc.gridy = gbc.gridy+1;
-            this.add(goBuildings, gbc);
+            this.add(goLevels, gbc);
 
             gbc.gridy = gbc.gridy+1;
             this.add(addLocation, gbc);
@@ -89,7 +98,7 @@ public class SelectLocationPanel extends JPanel {
             this.add(getInfo, gbc);
 
         } else {
-            JLabel empty = new JLabel("Brak budynkow");
+            JLabel empty = new JLabel("Brak budynków");
             this.add(empty, gbc);
         }
 
@@ -100,4 +109,16 @@ public class SelectLocationPanel extends JPanel {
     public void addBackInfoActionListener(ActionListener actionListener){
         back.addActionListener(actionListener);
     }
+
+    public void addGetInfoInfoActionListener(ActionListener actionListener){
+        getInfo.addActionListener(actionListener);
+
+    } public void addGoLevelsInfoActionListener(ActionListener actionListener){
+        goLevels.addActionListener(actionListener);
+    }
+
+    public int getCurrentLocation(){
+        return currentLocation;
+    }
+
 }

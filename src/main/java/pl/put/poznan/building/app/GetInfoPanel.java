@@ -7,14 +7,23 @@ import java.awt.event.ActionListener;
 public class GetInfoPanel extends JPanel {
 
     private final JButton back;
-    private JLabel buildingAmountLabel;
+    private JLabel amountLabel;
+    private static final String BUILDINGS_INFO = "Informacje o wszystkich budynkach";
+    private static final String BUILDINGS_AMOUNT = "Ilość budynków: ";
+    private static final String LEVELS_INFO = "Informacje o wszystkich poziomoach";
+    private static final String LEVELS_AMOUNT = "Ilość poziomów: ";
+    private static final String ROOMS_INFO = "Informacje o wszystkich pokojach";
+    private static final String ROOMS_AMOUNT = "Ilość pokoi: ";
+    public static final int TYPE_BUILDING = 0;
+    public static final int TYPE_LEVEL = 1;
+    public static final int TYPE_ROOM = 2;
 
-    public GetInfoPanel(){
+    public GetInfoPanel(int type){
 
         GridBagLayout mainPanelLayout = new GridBagLayout();
         this.setLayout(mainPanelLayout);
         GridBagConstraints gbcMainPanel = new GridBagConstraints();
-        buildingAmountLabel = new JLabel();
+        amountLabel = new JLabel();
 
         JPanel panel = new JPanel();
         GridBagLayout layout = new GridBagLayout();
@@ -25,10 +34,26 @@ public class GetInfoPanel extends JPanel {
         GridBagLayout layoutButtons = new GridBagLayout();
         panelButtons.setLayout(layoutButtons);
         GridBagConstraints gbcButtons4 = new GridBagConstraints();
+        JLabel buildingTitleLabel =  new JLabel();
+        JLabel label = new JLabel();
 
-        JLabel label = new JLabel("Informacje o wszystkich budynkach");
+        switch (type){
+            case TYPE_BUILDING:
+                 buildingTitleLabel.setText(BUILDINGS_AMOUNT);
+                 label.setText(BUILDINGS_INFO);
+                break;
+            case TYPE_LEVEL:
+                buildingTitleLabel.setText(LEVELS_AMOUNT);
+                label.setText(LEVELS_INFO);
+                break;
+            case TYPE_ROOM:
+                buildingTitleLabel.setText(ROOMS_AMOUNT);
+                label.setText(ROOMS_INFO);
+                break;
+        }
+
         label.setFont(new Font("Serif", Font.BOLD, 16));
-        JLabel buildingTitleLabel = new JLabel("Ilość budynków: ");
+
 
         back = new JButton("Wróć");
         label.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -48,7 +73,7 @@ public class GetInfoPanel extends JPanel {
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        panel.add(buildingAmountLabel, gbc);
+        panel.add(amountLabel, gbc);
 
         gbcButtons4.insets = new Insets(30,5,30,5);
         gbcButtons4.gridy = 0;
@@ -69,7 +94,7 @@ public class GetInfoPanel extends JPanel {
         back.addActionListener(actionListener);
     }
 
-    public void setBuildingAmountLabelText(String text) {
-        this.buildingAmountLabel.setText(text);
+    public void setAmountLabelText(String text) {
+        this.amountLabel.setText(text);
     }
 }

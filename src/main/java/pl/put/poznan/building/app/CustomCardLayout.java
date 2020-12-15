@@ -26,19 +26,21 @@ public class CustomCardLayout extends JFrame {
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
 
-        ActionListener backActionListener = (e -> cardLayout.show(cardPanel, "1"));
+
 
         MenuPanel menuPanel = new MenuPanel();
         AddBuildingPanel addBuildingPanel = new AddBuildingPanel();
         ServerOutputPanel serverOutputPanel = new ServerOutputPanel();
-        GetInfoPanel getInfoPanel = new GetInfoPanel();
+        GetInfoPanel getInfoPanelBuildings = new GetInfoPanel(GetInfoPanel.TYPE_BUILDING);
+        GetInfoPanel getInfoPanelLevels = new GetInfoPanel(GetInfoPanel.TYPE_LEVEL);
+        GetInfoPanel getInfoPanelRooms = new GetInfoPanel(GetInfoPanel.TYPE_ROOM    );
         SelectLocationPanel selectLocationPanel = new SelectLocationPanel();
 
         menuPanel.addServerOutputButtonActionListener(e -> cardLayout.show(cardPanel, "3"));
         menuPanel.addAddLocationActionListener(e -> cardLayout.show(cardPanel, "2"));
         menuPanel.addGetInfoActionListener(e -> {
             cardLayout.show(cardPanel, "4");
-            getInfoPanel.setBuildingAmountLabelText(String.valueOf(countBuildings()));
+            getInfoPanelBuildings.setAmountLabelText(String.valueOf(countBuildings()));
         });
         menuPanel.addGoBuildingsActionListener(e -> {
             cardLayout.show(cardPanel, "5");
@@ -53,7 +55,7 @@ public class CustomCardLayout extends JFrame {
             data = ConnectionProvider.postDataToRestApi(json);
         });
 
-        addBuildingPanel.addBackActionListener(backActionListener);
+        addBuildingPanel.addBackActionListener(getBackActionListener("1"));
 
         serverOutputPanel.addGetActionListener(e -> {
             data = ConnectionProvider.getDataFromRestApi(serverOutputPanel.getTf());
@@ -66,42 +68,63 @@ public class CustomCardLayout extends JFrame {
             serverOutputPanel.setTa(data);
         });
 
-        serverOutputPanel.addBackActionListener(backActionListener);
+        serverOutputPanel.addBackActionListener(getBackActionListener("1"));
+        getInfoPanelBuildings.addBackInfoActionListener(getBackActionListener("1"));
+        getInfoPanelLevels.addBackInfoActionListener(getBackActionListener("5"));
+        selectLocationPanel.addBackInfoActionListener(getBackActionListener("1"));
 
-        getInfoPanel.addBackInfoActionListener(backActionListener);
+        selectLocationPanel.addGetInfoInfoActionListener(e -> {
+            cardLayout.show(cardPanel, "6");
+                int i = selectLocationPanel.getCurrentLocation();
+                getInfoPanelLevels.setAmountLabelText(String.valueOf(countLevels(i)));
 
-        selectLocationPanel.addBackInfoActionListener(backActionListener);
-
+        });
 
         cardPanel.add(menuPanel,"1");
         cardPanel.add(addBuildingPanel,"2");
         cardPanel.add(serverOutputPanel,"3");
-        cardPanel.add(getInfoPanel,"4");
+        cardPanel.add(getInfoPanelBuildings,"4");
         cardPanel.add(selectLocationPanel,"5");
+        cardPanel.add(getInfoPanelLevels,"6");
 
         getContentPane().add(cardPanel, BorderLayout.CENTER);
     }
 
     private int countBuildings(){
-        Building[] buildings = getBuildings();
+        Building[] buildings = getLocations("Location");
         return buildings.length;
     }
 
-    private Building[] getBuildings(){
-        String json = ConnectionProvider.getDataFromRestApi("Location");
+    private int countLevels(int id){
+        Building building = getLocation(String.valueOf(id));
+        return building.getAmountOfLevels();
+    }
+
+    private Building[] getLocations(String type){
+        String json = ConnectionProvider.getDataFromRestApi(type);
         Gson gson = new Gson();
         return gson.fromJson(json, Building[].class);
+    }
+
+    private Building getLocation(String type){
+        String json = ConnectionProvider.getDataFromRestApi(type);
+        Gson gson = new Gson();
+        return gson.fromJson(json, Building.class);
     }
 
 
     private ArrayList<String> getBuildingNamesList(){
         ArrayList<String> buildingsNames = new ArrayList<>();
-        Building[] buildings = getBuildings();
+        Building[] buildings = getLocations("Location");
 
         for(Building b: buildings){
             buildingsNames.add(b.getName());
         }
         return buildingsNames;
+    }
+
+    private ActionListener getBackActionListener(String previous){
+        return (e -> cardLayout.show(cardPanel, previous));
     }
 
 }
