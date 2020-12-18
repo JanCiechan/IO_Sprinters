@@ -50,4 +50,8 @@ public class Level extends Location {
         }
         return result;
     }
+
+    public int getBuildingid(){
+        return this.Buildingid = Buildingid;
+    }
 }

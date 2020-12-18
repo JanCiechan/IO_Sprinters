@@ -12,7 +12,7 @@ public class Building extends Location {
 
     public void fillList(List<Level> addlevels){
         for(Level item:addlevels){
-            if(item.getId()==this.getId()){
+            if(item.getBuildingid()==this.getId()){
                 levelList.add(item);
             }
         }

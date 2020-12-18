@@ -11,6 +11,9 @@ import pl.put.poznan.building.logic.Level;
 import pl.put.poznan.building.logic.Location;
 import pl.put.poznan.building.logic.Room;
 
+import javax.annotation.PostConstruct;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,14 @@ public class LocationController {
     private  List<Room> roomList= new ArrayList<>();
     private  List<Level> levelList= new ArrayList<>();
     private  List<Building> buildingList= new ArrayList<>();
+
+    @PostConstruct
+    public void dataLoader() throws Exception {
+        String file = "src/main/resources/data.json";
+        String jsonFile = new String(Files.readAllBytes(Paths.get(file)));
+        JSONObject jsonObject = new JSONObject(jsonFile);
+        post(jsonFile);
+    }
 
     @RequestMapping(method = RequestMethod.GET,value="Location",produces = "application/json")
     public List<Location> getAll() {
@@ -94,12 +105,35 @@ public class LocationController {
 
         if(("Building").equals(jsonObject.getString("type"))){
             Building budynek = new Building(jsonObject.getInt("id"),jsonObject.getString("name"),jsonObject.getString("type"));
+            JSONArray levels = jsonObject.getJSONArray("levels");
+            for (int i=0; i < levels.length(); i++) {
+                JSONObject jsonLevel = levels.getJSONObject(i);
+                Level poziom = new Level(jsonLevel.getInt("id"),jsonLevel.getString("name"),jsonLevel.getString("type"),jsonLevel.getInt("Buildingid"));
+                JSONArray rooms = jsonLevel.getJSONArray("rooms");
+                for (int j=0; j < rooms.length(); j++) {
+                    JSONObject jsonRoom = rooms.getJSONObject(j);
+                    Room pomieszczenie = new Room(jsonRoom.getInt("id"),jsonRoom.getString("name"),jsonRoom.getString("type"),jsonRoom.getInt("Levelid"), Float.parseFloat(jsonRoom.getString("area")),Float.parseFloat(jsonRoom.getString("cube")),Float.parseFloat(jsonRoom.getString("heating")),Float.parseFloat(jsonRoom.getString("light")));
+                    roomList.add(pomieszczenie);
+                    Location location=new Location(jsonRoom.getInt("id"),jsonRoom.getString("name"),jsonRoom.getString("type"));
+                    locationList.add(location);
+                }
+                levelList.add(poziom);
+                Location location=new Location(jsonLevel.getInt("id"),jsonLevel.getString("name"),jsonLevel.getString("type"));
+                locationList.add(location);
+            }
             buildingList.add(budynek);
-
             wiadomosc="Budynek dodany";
         }
         if(("Level").equals(jsonObject.getString("type"))){
             Level poziom = new Level(jsonObject.getInt("id"),jsonObject.getString("name"),jsonObject.getString("type"),jsonObject.getInt("Buildingid"));
+            JSONArray rooms = jsonObject.getJSONArray("rooms");
+            for (int j=0; j < rooms.length(); j++) {
+                JSONObject jsonRoom = rooms.getJSONObject(j);
+                Room pomieszczenie = new Room(jsonRoom.getInt("id"),jsonRoom.getString("name"),jsonRoom.getString("type"),jsonRoom.getInt("Levelid"), Float.parseFloat(jsonRoom.getString("area")),Float.parseFloat(jsonRoom.getString("cube")),Float.parseFloat(jsonRoom.getString("heating")),Float.parseFloat(jsonRoom.getString("light")));
+                roomList.add(pomieszczenie);
+                Location location=new Location(jsonRoom.getInt("id"),jsonRoom.getString("name"),jsonRoom.getString("type"));
+                locationList.add(location);
+            }
             levelList.add(poziom);
             wiadomosc="Poziom dodany";
         }
@@ -114,9 +148,6 @@ public class LocationController {
         locationList.add(location);
         return wiadomosc;
     }
-
-
-
 }
 
 
