@@ -29,21 +29,21 @@ public class Level extends Location {
             }
             return result;
         }
-    public float getcubature(){
+    public float getCubature(){
         float result=0;
         for (Room item:RoomList){
-            result+=item.getCube();
+            result+=item.getCubature();
         }
         return result;
     }
-    public float getlight(){
+    public float getLight(){
         float result=0;
         for (Room item:RoomList){
             result+=item.getLight();
         }
         return result;
     }
-    public float getheat(){
+    public float getHeating(){
         float result=0;
         for (Room item:RoomList){
             result+=item.getHeating();

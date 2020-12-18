@@ -1,0 +1,63 @@
+{
+  "id": 1,
+  "name": "Building",
+  "type": "Building",
+  "levels":[
+    {
+      "id": 2,
+      "name": "level1",
+      "type": "Level",
+      "Buildingid": 1,
+      "rooms":[
+        {
+          "id": 3,
+          "name": "pokoj3",
+          "type": "Room",
+          "Levelid": 2,
+          "area": 14,
+          "cube": 12.3,
+          "heating": 64.2,
+          "light": 12
+        },
+        {
+        "id": 4,
+        "name": "pokoj4",
+        "type": "Room",
+        "Levelid": 2,
+        "area": 14,
+        "cube": 12.3,
+        "heating": 64.2,
+        "light": 12
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "level2",
+      "type": "Level",
+      "Buildingid": 1,
+      "rooms":[
+        {
+          "id": 6,
+          "name": "pokoj6",
+          "type": "Room",
+          "Levelid": 5,
+          "area": 14,
+          "cube": 12.3,
+          "heating": 64.2,
+          "light": 12
+        },
+        {
+        "id": 7,
+        "name": "pokoj7",
+        "type": "Room",
+        "Levelid": 5,
+        "area": 14,
+        "cube": 12.3,
+        "heating": 64.2,
+        "light": 12
+        }
+      ]
+    }
+  ]
+}

@@ -1,23 +1,17 @@
 package pl.put.poznan.building.rest;
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import pl.put.poznan.building.logic.Building;
-import pl.put.poznan.building.logic.Level;
-import pl.put.poznan.building.logic.Location;
-import pl.put.poznan.building.logic.Room;
+import pl.put.poznan.building.logic.*;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/{text}")
@@ -25,9 +19,10 @@ public class LocationController {
 
     private static final Logger logger = LoggerFactory.getLogger(LocationController.class);
     private List<Location> locationList = new ArrayList<>();
-    private  List<Room> roomList= new ArrayList<>();
-    private  List<Level> levelList= new ArrayList<>();
-    private  List<Building> buildingList= new ArrayList<>();
+    private  List<Room> roomList= new ArrayList<>();//do usuniecia
+    private  List<Level> levelList= new ArrayList<>();//do usuniecia
+    private  List<Building> buildingList= new ArrayList<>();//do usuniecia
+
 
     @PostConstruct
     public void dataLoader() throws Exception {
@@ -35,6 +30,7 @@ public class LocationController {
         String jsonFile = new String(Files.readAllBytes(Paths.get(file)));
         JSONObject jsonObject = new JSONObject(jsonFile);
         post(jsonFile);
+        refresh();
     }
 
     @RequestMapping(method = RequestMethod.GET,value="Location",produces = "application/json")
@@ -43,9 +39,10 @@ public class LocationController {
     }
     @RequestMapping(method = RequestMethod.GET,value="Rooms",produces = "application/json")
     public List<Room> getAllRooms() {
-
         return roomList;
+
     }
+
     @RequestMapping(method = RequestMethod.GET,value="Levels",produces = "application/json")
     public List<Level> getAllLevels() {
 
@@ -66,19 +63,168 @@ public class LocationController {
         return "Data refreshed";
     }
 
-
+    public String CheckType(int id){
+        for(Location item:locationList){
+            if(item.getId()==id){
+                return item.getType();
+            }
+        }
+        return null;
+    }
     @RequestMapping(method=RequestMethod.GET,value="area/{id}",produces="application/json")
     public float getArea(@PathVariable("id")int id){
         float result=0;
-        for(Level item:levelList){
-            if(id==item.getId()){
-               result+=item.getArea();
-               break;
+        String type=CheckType(id);
+        if(type.equals("Building")){
+            for(Building item:buildingList){
+                if(item.getId()==id) return item.getArea();
+            }
+        }
+        else if(type.equals("Level")){
+            for(Level item:levelList){
+                if(item.getId()==id) return item.getArea();
+            }
+        }
+        else if(type.equals("Room")){
+            for(Room item:roomList){
+                if(item.getId()==id) return item.getArea();
             }
         }
         return result;
 
     }
+    @RequestMapping(method=RequestMethod.GET,value="cube/{id}",produces="application/json")
+    public float getCubature(@PathVariable("id")int id){
+        float result=0;
+        String type=CheckType(id);
+        if(type.equals("Building")){
+            for(Building item:buildingList){
+                if(item.getId()==id) return item.getCubature();
+            }
+        }
+        else if(type.equals("Level")){
+            for(Level item:levelList){
+                if(item.getId()==id) return item.getCubature();
+            }
+        }
+        else if(type.equals("Room")){
+            for(Room item:roomList){
+                if(item.getId()==id) return item.getCubature();
+            }
+        }
+        return result;
+
+    }
+    @RequestMapping(method=RequestMethod.GET,value="light/{id}",produces="application/json")
+    public float getLight(@PathVariable("id")int id){
+        float result=0;
+        String type=CheckType(id);
+        if(type.equals("Building")){
+            for(Building item:buildingList){
+                if(item.getId()==id) return item.getLight();
+            }
+        }
+        else if(type.equals("Level")){
+            for(Level item:levelList){
+                if(item.getId()==id) return item.getLight();
+            }
+        }
+        else if(type.equals("Room")){
+            for(Room item:roomList){
+                if(item.getId()==id) return item.getLight();
+            }
+        }
+        return result;
+
+    }
+    @RequestMapping(method=RequestMethod.GET,value="heat/{id}",produces="application/json")
+    public float getHeating(@PathVariable("id")int id){
+        float result=0;
+        String type=CheckType(id);
+        if(type.equals("Building")){
+            for(Building item:buildingList){
+                if(item.getId()==id) return item.getHeating();
+            }
+        }
+        else if(type.equals("Level")){
+            for(Level item:levelList){
+                if(item.getId()==id) return item.getHeating();
+            }
+        }
+        else if(type.equals("Room")){
+            for(Room item:roomList){
+                if(item.getId()==id) return item.getHeating();
+            }
+        }
+        return result;
+
+    }
+    @RequestMapping(method=RequestMethod.GET,value="lightinensity/{id}",produces="application/json")
+    public float getLightIntensity(@PathVariable("id")int id){
+        float light=0;
+        float area=0;
+        String type=CheckType(id);
+        if(type.equals("Building")){
+            for(Building item:buildingList){
+                if(item.getId()==id){
+                    light=item.getLight();
+                    area=item.getArea();
+                } ;
+            }
+        }
+        else if(type.equals("Level")){
+            for(Level item:levelList){
+                if(item.getId()==id) {
+                    light=item.getLight();
+                    area=item.getArea();
+                };
+            }
+        }
+        else if(type.equals("Room")){
+            for(Room item:roomList){
+                if(item.getId()==id) {
+                    light=item.getLight();
+                    area=item.getArea();
+                };
+            }
+        }
+        return light/area;
+
+    }
+    @RequestMapping(method=RequestMethod.GET,value="powerusage/{id}",produces="application/json")
+    public float getPowerUsage(@PathVariable("id")int id){
+        float heating=0;
+        float cubature=0;
+        String type=CheckType(id);
+        if(type.equals("Building")){
+            for(Building item:buildingList){
+                if(item.getId()==id){
+                    heating=item.getHeating();
+                    cubature=item.getCubature();
+                } ;
+            }
+        }
+        else if(type.equals("Level")){
+            for(Level item:levelList){
+                if(item.getId()==id) {
+                    heating=item.getHeating();
+                    cubature=item.getCubature();
+                };
+            }
+        }
+        else if(type.equals("Room")){
+            for(Room item:roomList){
+                if(item.getId()==id) {
+                    heating=item.getHeating();
+                    cubature=item.getCubature();
+                };
+            }
+        }
+        return heating/cubature;
+
+    }
+
+
     //@RequestMapping(method = RequestMethod.GET, produces = "application/json")
     @GetMapping("/{id}")
     public Location getLocationByID(@PathVariable("id") int id) {
@@ -91,8 +237,6 @@ public class LocationController {
         }
         return null;
     }
-
-
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public String post(@RequestBody String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);

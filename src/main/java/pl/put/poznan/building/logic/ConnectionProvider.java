@@ -1,11 +1,20 @@
 package pl.put.poznan.building.logic;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.springframework.context.annotation.Bean;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class ConnectionProvider {
 
@@ -76,4 +85,11 @@ public class ConnectionProvider {
         }
         return result.toString();
     }
+
+    /*@Bean
+    public void start() throws IOException {
+        String file = "src/main/resources/data.json";
+        String jsonFile = new String(Files.readAllBytes(Paths.get(file)));
+        postDataToRestApi(file);
+    }*/
 }

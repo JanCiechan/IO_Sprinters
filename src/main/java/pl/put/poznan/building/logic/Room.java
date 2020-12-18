@@ -19,7 +19,7 @@ public class Room extends Location {
         return area;
     }
 
-    public float getCube() {
+    public float getCubature() {
         return cube;
     }
 
