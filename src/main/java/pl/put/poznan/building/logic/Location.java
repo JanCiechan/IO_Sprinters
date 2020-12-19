@@ -1,5 +1,7 @@
 package pl.put.poznan.building.logic;
 
+import java.util.List;
+
 /**
  * This is just an example to show that the logic should be outside the REST service.
  */
@@ -21,7 +23,9 @@ public class Location {
     public int getId(){
         return this.id;
     }
-
+    public List<Location> getList(){
+        return null;
+    }
     public String getName(){
         return this.name;
     }

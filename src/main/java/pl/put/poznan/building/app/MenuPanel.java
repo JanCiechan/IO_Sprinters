@@ -14,7 +14,7 @@ public class MenuPanel extends JPanel {
     public MenuPanel(){
          JLabel label = new JLabel("Witaj Administratorze!");
          label.setFont(new Font("Serif", Font.BOLD, 16));
-         goBuildings = new JButton("Przejdz do bydynkow");
+         goBuildings = new JButton("Przejdz do budynkow");
          addLocation = new JButton("Dodaj lokacje");
          getInfo = new JButton("Pobierz informacje");
          serverOutputButton = new JButton("Pokaz dane serwera");

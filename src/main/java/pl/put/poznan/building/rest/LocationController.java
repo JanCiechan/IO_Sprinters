@@ -19,9 +19,9 @@ public class LocationController {
 
     private static final Logger logger = LoggerFactory.getLogger(LocationController.class);
     private List<Location> locationList = new ArrayList<>();
-    private  List<Room> roomList= new ArrayList<>();//do usuniecia
-    private  List<Level> levelList= new ArrayList<>();//do usuniecia
-    private  List<Building> buildingList= new ArrayList<>();//do usuniecia
+    private  List<Room> roomList= new ArrayList<>();
+    private  List<Level> levelList= new ArrayList<>();
+    private  List<Building> buildingList= new ArrayList<>();
 
 
     @PostConstruct
@@ -228,14 +228,26 @@ public class LocationController {
     }
 
 
+
     //@RequestMapping(method = RequestMethod.GET,value="{id}", produces = "application/json")
     @GetMapping("/{id}")
     public Location getLocationByID(@PathVariable("id") int id) {
         // log the parameters
         logger.debug(String.valueOf(id));
-        for (Location location : locationList) {
-            if (location.getId() == id) {
-                return location;
+        for (Building building : buildingList) {
+            if (building.getId() == id) {
+
+                return building;
+            }
+        }
+        for (Level level : levelList) {
+            if (level.getId() == id) {
+                return level;
+            }
+        }
+        for (Room room : roomList) {
+            if (room.getId() == id) {
+                return room;
             }
         }
         return null;
@@ -293,6 +305,7 @@ public class LocationController {
         }
         Location location=new Location(jsonObject.getInt("id"),jsonObject.getString("name"),jsonObject.getString("type"));
         locationList.add(location);
+        refresh();
         return wiadomosc;
     }
 
@@ -329,6 +342,7 @@ public class LocationController {
                 break;
             }
         }
+        refresh();
         return wiadomosc;
     }
 
@@ -368,6 +382,15 @@ public class LocationController {
                 }
             }
         }
+        if (!"".equals(wiadomosc)) {
+            for (Location item : locationList) {
+                if (item.getId() == jsonObject.getInt("id")) {
+                    item.setName(jsonObject.getString("name"));
+                    break;
+                }
+            }
+        }
+        refresh();
         return wiadomosc;
     }
 }

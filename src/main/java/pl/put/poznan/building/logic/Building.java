@@ -11,6 +11,7 @@ public class Building extends Location {
     }
 
     public void fillList(List<Level> addlevels){
+        levelList.clear();
         for(Level item:addlevels){
             if(item.getBuildingid()==this.getId()){
                 levelList.add(item);
@@ -46,10 +47,11 @@ public class Building extends Location {
         return result;
     }
     public int getAmountOfLevels(){
-        if (levelList == null){
-            return 0;
-        }
-        return this.levelList.size();
+
+        return getLevelList().size();
+    }
+    public List<Level> getLevelList(){
+        return levelList;
     }
 
 }

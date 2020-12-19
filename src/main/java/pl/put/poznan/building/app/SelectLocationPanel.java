@@ -3,30 +3,58 @@ package pl.put.poznan.building.app;
 import com.google.gson.Gson;
 import pl.put.poznan.building.logic.Building;
 import pl.put.poznan.building.logic.ConnectionProvider;
+import pl.put.poznan.building.logic.Level;
+import pl.put.poznan.building.logic.Room;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SelectLocationPanel extends JPanel {
-
-    private final JButton addLocation;
+    public static final int TYPE_BUILDING = 0;
+    public static final int TYPE_LEVEL = 1;
+    public static final int TYPE_ROOM = 2;
+    private int  type;
+    private int father;
+    private  JButton addLocation=new JButton();
     private final JButton getInfo;
-    private final JButton goLevels;
+    private  JButton goLevels=new JButton();
     private final JButton back;
     private ArrayList<String> buildingsNames;
     private JComboBox buildingsList;
-    private final JLabel label;
+    private final JLabel label=new JLabel();
     private final GridBagConstraints gbc;
     private int currentLocation;
 
-    public SelectLocationPanel(){
-        label = new JLabel("Wybierz budynek");
-        label.setFont(new Font("Serif", Font.BOLD, 16));
+    public SelectLocationPanel(int type){
+        setType(type);
+        setFather(father);
+        switch (type){
+            case TYPE_BUILDING:
+                label.setText("Wybierz budynek");
+                label.setFont(new Font("Serif", Font.BOLD, 16));
 
-        goLevels = new JButton("Przejdz do poziomow");
-        addLocation = new JButton("Dodaj poziom");
+                goLevels.setText("Przejdz do poziomow");
+                addLocation = new JButton("Dodaj poziom");
+                break;
+            case TYPE_LEVEL:
+                label.setText("Wybierz poziom");
+                label.setFont(new Font("Serif", Font.BOLD, 16));
+
+                goLevels.setText("Przejdz do pomieszczenia");
+                addLocation = new JButton("Dodaj pomieszczenie");
+                break;
+            case TYPE_ROOM:
+                label.setText("Wybierz pomieszczenie");
+                label.setFont(new Font("Serif", Font.BOLD, 16));
+
+                goLevels.setText("Nie idziemy glebiej :/");
+                addLocation = new JButton("tu moze edycja kto wie?");
+                break;
+
+        }
         getInfo = new JButton("Pobierz informacje");
         back = new JButton("Wróć");
         GridBagLayout layout = new GridBagLayout();
@@ -43,41 +71,100 @@ public class SelectLocationPanel extends JPanel {
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        draw();
+        draw(type);
     }
 
 
-    public void setBuildingsNames(ArrayList<String> buildingsNames) {
+    public void setBuildingsNames(ArrayList<String> buildingsNames,int type) {
         this.buildingsNames = buildingsNames;
         this.removeAll();
-        this.draw();
+        this.draw(type);
     }
 
-    public void draw(){
+    public void draw(int type){
 
-        this.add(label);
-        String json = ConnectionProvider.getDataFromRestApi("Location");
-        Gson gson = new Gson();
-        Building[] buildings = gson.fromJson(json, Building[].class);
-        buildingsList = null;
-        buildingsNames = new ArrayList<>();
-        for(Building b: buildings){
-            buildingsNames.add(b.getName());
-        }
-
-        if (buildingsNames.size() != 0){
-            buildingsList = new JComboBox(buildingsNames.toArray());
-            buildingsList.setSelectedIndex(buildingsNames.size()-1);
-            buildingsList.addActionListener(e -> {
-                JComboBox cb = (JComboBox)e.getSource();
-                String name = (String)cb.getSelectedItem();
+        this.setType(type);
+        String json="";
+        Gson gson=new Gson();
+        switch(getType()){
+            case TYPE_BUILDING:
+                json = ConnectionProvider.getDataFromRestApi("Buildings");
+                Building[] buildings = gson.fromJson(json, Building[].class);
+                buildingsList = null;
+                buildingsNames = new ArrayList<>();
                 for(Building b: buildings){
-                    if (b.getName().equals("name")){
-                        currentLocation = b.getId();
-                    }
+                    buildingsNames.add(b.getName());
                 }
-            });
+                if (buildingsNames.size() != 0){
+                    buildingsList = new JComboBox(buildingsNames.toArray());
+                    buildingsList.setSelectedIndex(buildingsNames.size()-1);
+                    currentLocation=buildings[0].getId();
+                    buildingsList.addActionListener(e -> {
+                        JComboBox cb = (JComboBox)e.getSource();
+                        String name = (String)cb.getSelectedItem();
+                        for(Building b: buildings){
+                            if (b.getName().equals(name)){
+                                currentLocation = b.getId();
+                            }
+                        }
+                    });
+                }
+                break;
+            case TYPE_LEVEL:
+                json = ConnectionProvider.getDataFromRestApi("Levels");
+                Level[] levels = gson.fromJson(json, Level[].class);
+
+                buildingsList = null;
+                buildingsNames = new ArrayList<>();
+                for(Level b: levels){
+
+                        buildingsNames.add(b.getName());}
+
+
+                if (buildingsNames.size() != 0){
+                    buildingsList = new JComboBox(buildingsNames.toArray());
+                    buildingsList.setSelectedIndex(buildingsNames.size()-1);
+                    currentLocation=levels[0].getId();
+                    buildingsList.addActionListener(e -> {
+                        JComboBox cb = (JComboBox)e.getSource();
+                        String name = (String)cb.getSelectedItem();
+                        for(Level b: levels){
+                            if (b.getName().equals(name)){
+                                currentLocation = b.getId();
+                            }
+                        }
+                    });
+                }
+                break;
+            case TYPE_ROOM:
+                json = ConnectionProvider.getDataFromRestApi("Rooms");
+
+                Room[] rooms = gson.fromJson(json, Room[].class);
+                buildingsList = null;
+                buildingsNames = new ArrayList<>();
+                for(Room b: rooms){
+                    buildingsNames.add(b.getName());
+                }
+
+                if (buildingsNames.size() != 0){
+                    buildingsList = new JComboBox(buildingsNames.toArray());
+                    buildingsList.setSelectedIndex(buildingsNames.size()-1);
+                    currentLocation=rooms[0].getId();
+                    buildingsList.addActionListener(e -> {
+                        JComboBox cb = (JComboBox)e.getSource();
+                        String name = (String)cb.getSelectedItem();
+                        for(Room b: rooms){
+                            if (b.getName().equals(name)){
+                                currentLocation = b.getId();
+                            }
+                        }
+
+                    });
+                }
+                break;
         }
+
+
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -105,7 +192,12 @@ public class SelectLocationPanel extends JPanel {
         gbc.gridy = gbc.gridy+1;
         this.add(back, gbc);
     }
-
+    public void setType(int i){
+        type=i;
+    }
+    public int getType(){
+        return type;
+    }
     public void addBackInfoActionListener(ActionListener actionListener){
         back.addActionListener(actionListener);
     }
@@ -116,9 +208,18 @@ public class SelectLocationPanel extends JPanel {
     } public void addGoLevelsInfoActionListener(ActionListener actionListener){
         goLevels.addActionListener(actionListener);
     }
-
+    public void addAddLevelsActionListener(ActionListener actionListener){
+        addLocation.addActionListener(actionListener);
+    }
     public int getCurrentLocation(){
         return currentLocation;
     }
 
+    public int getFather() {
+        return father;
+    }
+
+    public void setFather(int father) {
+        this.father = father;
+    }
 }

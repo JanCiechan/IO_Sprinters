@@ -10,7 +10,7 @@ public class GetInfoPanel extends JPanel {
     private JLabel amountLabel;
     private static final String BUILDINGS_INFO = "Informacje o wszystkich budynkach";
     private static final String BUILDINGS_AMOUNT = "Ilość budynków: ";
-    private static final String LEVELS_INFO = "Informacje o wszystkich poziomoach";
+    private static final String LEVELS_INFO = "Informacje o wszystkich poziomach";
     private static final String LEVELS_AMOUNT = "Ilość poziomów: ";
     private static final String ROOMS_INFO = "Informacje o wszystkich pokojach";
     private static final String ROOMS_AMOUNT = "Ilość pokoi: ";

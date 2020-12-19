@@ -12,7 +12,7 @@ public class Level extends Location {
     }
 
     public void fillList(List<Room> addrooms) {
-
+        RoomList.clear();
         for(int i = 0;i<addrooms.size();i++)
 
             if (addrooms.get(i).getLevelid() == this.getId()) {
@@ -52,6 +52,10 @@ public class Level extends Location {
     }
 
     public int getBuildingid(){
-        return this.Buildingid = Buildingid;
+        return this.Buildingid;
+    }
+
+    public int getAmountOfRooms() {
+        return RoomList.size();
     }
 }
