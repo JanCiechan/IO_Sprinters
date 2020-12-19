@@ -28,8 +28,11 @@ public class LocationController {
     public void dataLoader() throws Exception {
         String file = "src/main/resources/data.json";
         String jsonFile = new String(Files.readAllBytes(Paths.get(file)));
-        JSONObject jsonObject = new JSONObject(jsonFile);
-        post(jsonFile);
+        JSONArray locations = new JSONArray(jsonFile);
+        for (int i=0; i < locations.length(); i++) {
+            String location = locations.getString(i);
+            post(location);
+        }
         refresh();
     }
 
@@ -225,7 +228,7 @@ public class LocationController {
     }
 
 
-    //@RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    //@RequestMapping(method = RequestMethod.GET,value="{id}", produces = "application/json")
     @GetMapping("/{id}")
     public Location getLocationByID(@PathVariable("id") int id) {
         // log the parameters
@@ -290,6 +293,81 @@ public class LocationController {
         }
         Location location=new Location(jsonObject.getInt("id"),jsonObject.getString("name"),jsonObject.getString("type"));
         locationList.add(location);
+        return wiadomosc;
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE,produces = "application/json")
+    public String deleteByID(@RequestBody String json) throws JSONException {
+        JSONObject jsonObject = new JSONObject(json);
+        System.out.println(jsonObject);
+        String wiadomosc="";
+        for(Building item:buildingList){
+            if (item.getId()==jsonObject.getInt("id")){
+                buildingList.remove(item);
+                wiadomosc= "Budynek usuniety";
+                break;
+            }
+        }
+
+        for(Level item:levelList){
+           if (item.getId()==jsonObject.getInt("id")){
+               levelList.remove(item);
+               wiadomosc= "Poziom usuniety";
+               break;
+           }
+        }
+        for(Room item:roomList){
+            if (item.getId()==jsonObject.getInt("id")){
+                roomList.remove(item);
+                wiadomosc= "Pomieszczenie usuniete";
+                break;
+            }
+        }
+        for (Location item : locationList) {
+            if (item.getId()==jsonObject.getInt("id")) {
+                locationList.remove(item);
+                break;
+            }
+        }
+        return wiadomosc;
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, produces = "application/json")
+    public String replaceLocation(@RequestBody String json) throws JSONException{
+
+        JSONObject jsonObject = new JSONObject(json);
+        String wiadomosc="";
+        if(("Building").equals(jsonObject.getString("type"))){
+            for(Building item:buildingList) {
+                if (item.getId() == jsonObject.getInt("id")) {
+                    item.setName(jsonObject.getString("name"));
+                    wiadomosc = "Budynek zaktualizowany";
+                    break;
+                }
+            }
+        }
+        if(("Level").equals(jsonObject.getString("type"))){
+            for(Level item:levelList) {
+                if (item.getId() == jsonObject.getInt("id")) {
+                    item.setName(jsonObject.getString("name"));
+                    wiadomosc = "Poziom zaktualizowany";
+                    break;
+                }
+            }
+        }
+        if(("Room").equals(jsonObject.getString("type"))){
+            for(Room item:roomList) {
+                if (item.getId() == jsonObject.getInt("id")) {
+                    item.setName(jsonObject.getString("name"));
+                    item.setArea(Float.parseFloat(jsonObject.getString("area")));
+                    item.setCube(Float.parseFloat(jsonObject.getString("cube")));
+                    item.setHeating(Float.parseFloat(jsonObject.getString("heating")));
+                    item.setLight(Float.parseFloat(jsonObject.getString("light")));
+                    wiadomosc= "Pomieszczenie zaktualizowane";
+                    break;
+                }
+            }
+        }
         return wiadomosc;
     }
 }

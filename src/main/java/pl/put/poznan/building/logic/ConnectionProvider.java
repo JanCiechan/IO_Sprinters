@@ -86,6 +86,70 @@ public class ConnectionProvider {
         return result.toString();
     }
 
+    public static String putDataToRestApi(String jsonInputString){
+
+        StringBuilder result = new StringBuilder();
+
+        try {
+            URL url = new URL("http://localhost:8080/application");
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            conn.connect();
+
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+                String output;
+                while ((output = br.readLine()) != null) {
+                    result.append(output);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
+
+    public static String deleteDataFromRestApi(String jsonInputString){
+
+        StringBuilder result = new StringBuilder();
+
+        try {
+            URL url = new URL("http://localhost:8080/application");
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("DELETE");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            conn.connect();
+
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+                String output;
+                while ((output = br.readLine()) != null) {
+                    result.append(output);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
+
     /*@Bean
     public void start() throws IOException {
         String file = "src/main/resources/data.json";
