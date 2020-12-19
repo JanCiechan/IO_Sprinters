@@ -5,24 +5,25 @@ import java.util.List;
 
 public class Level extends Location {
     public int Buildingid;
-    public List<Room> RoomList = new ArrayList<>();
+    public List<Room> rooms;
     public Level(int id, String name,String type,int Buildingid) {
         super(id, name,type);
         this.Buildingid=Buildingid;
+        rooms =new ArrayList<>();
     }
 
     public void fillList(List<Room> addrooms) {
-        RoomList.clear();
+        rooms.clear();
         for(int i = 0;i<addrooms.size();i++)
 
             if (addrooms.get(i).getLevelid() == this.getId()) {
-                RoomList.add(addrooms.get((i)));
+                rooms.add(addrooms.get((i)));
             }
         }
 
     public float getArea(){
             float result=0;
-            for (Room item:RoomList){
+            for (Room item: rooms){
 
                 result+=item.getArea();
 
@@ -31,21 +32,21 @@ public class Level extends Location {
         }
     public float getCubature(){
         float result=0;
-        for (Room item:RoomList){
+        for (Room item: rooms){
             result+=item.getCubature();
         }
         return result;
     }
     public float getLight(){
         float result=0;
-        for (Room item:RoomList){
+        for (Room item: rooms){
             result+=item.getLight();
         }
         return result;
     }
     public float getHeating(){
         float result=0;
-        for (Room item:RoomList){
+        for (Room item: rooms){
             result+=item.getHeating();
         }
         return result;
@@ -56,6 +57,6 @@ public class Level extends Location {
     }
 
     public int getAmountOfRooms() {
-        return RoomList.size();
+        return rooms.size();
     }
 }

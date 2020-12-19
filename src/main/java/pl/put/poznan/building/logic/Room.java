@@ -1,13 +1,14 @@
 package pl.put.poznan.building.logic;
 
 public class Room extends Location {
-    private int Levelid;
-    private float area;
-    private float cube;
-    private float heating;
-    private float light;
+    public int Levelid;
+    public float area;
+    public float cube;
+    public float heating;
+    public float light;
     public Room(int id, String name,String type,int Levelid,float area,float cube,float heating,float light) {
         super(id, name,type);
+
         this.Levelid=Levelid;
         this.area=area;
         this.cube=cube;

@@ -167,6 +167,24 @@ public class AddBuildingPanel extends JPanel {
     public void addBackActionListener(ActionListener actionListener){
         back.addActionListener(actionListener);
     }
+    public String getBuildingIdTFText(){
+        return BuildingIdLabel.getText();
+    }
+    public String getLevelId(){
+        return Levelid.getText();
+    }
+    public String getHeating(){
+        return heating.getText();
+    }
+    public String getLight(){
+        return light.getText();
+    }
+    public String getArea(){
+        return area.getText();
+    }
+    public String getCubature(){
+        return cubature.getText();
+    }
 
     public String getBuildingNameTFText(){
         return buildingNameTF.getText();

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import pl.put.poznan.building.logic.Building;
 import pl.put.poznan.building.logic.ConnectionProvider;
 import pl.put.poznan.building.logic.Level;
+import pl.put.poznan.building.logic.Room;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class CustomCardLayout extends JFrame {
     private static String data;
     private final JPanel cardPanel;
     private int idCounter = 0;
+
 
     public CustomCardLayout(){
 
@@ -51,7 +53,20 @@ public class CustomCardLayout extends JFrame {
             cardLayout.show(cardPanel, "5");
             selectBuildingpanel.setBuildingsNames(getBuildingNamesList(),selectBuildingpanel.getType());
         });
+        addLevelPanel.addSaveActionListener(e->{
+           Level level=new Level(idCounter++,addLevelPanel.getBuildingNameTFText(),"Level",Integer.parseInt(addLevelPanel.getBuildingIdTFText()));
 
+           Gson gson = new Gson();
+            String json=gson.toJson(level);
+            data = ConnectionProvider.postDataToRestApi(json);
+        });
+        addRoomPanel.addSaveActionListener(e -> {
+            Room room=new Room(idCounter++,addRoomPanel.getBuildingNameTFText(),"Room",Integer.parseInt(addRoomPanel.getLevelId()),Float.parseFloat(addRoomPanel.getArea()),Float.parseFloat(addRoomPanel.getCubature()),Float.parseFloat(addRoomPanel.getHeating()),Float.parseFloat(addRoomPanel.getLight()));
+            Gson gson = new Gson();
+
+            String json = gson.toJson(room);
+            data=ConnectionProvider.postDataToRestApi(json);
+        });
         addBuildingPanel.addSaveActionListener(e -> {
             String buildingName = addBuildingPanel.getBuildingNameTFText();
             Building building = new Building(idCounter++,buildingName,"building");
@@ -133,7 +148,7 @@ public class CustomCardLayout extends JFrame {
     }
 
     private int countBuildings(){
-        Building[] buildings = getLocations("Location");//chyba count lokejszyn co?
+        Building[] buildings = getLocations("Buildings");//chyba count lokejszyn co?
         return buildings.length;
     }
     private int countRooms(int id){
