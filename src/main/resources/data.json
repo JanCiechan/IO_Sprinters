@@ -14,20 +14,20 @@
           "name": "pokoj3",
           "type": "Room",
           "Levelid": 2,
-          "area": 14,
-          "cube": 12.3,
-          "heating": 64.2,
-          "light": 12
+          "area": 3,
+          "cube": 33,
+          "heating": 3333,
+          "light": 33333
         },
         {
         "id": 4,
         "name": "pokoj4",
         "type": "Room",
         "Levelid": 2,
-        "area": 14,
-        "cube": 12.3,
-        "heating": 64.2,
-        "light": 12
+        "area": 4,
+        "cube": 44,
+        "heating": 444,
+        "light": 4444
         }
       ]
     },
@@ -42,20 +42,20 @@
           "name": "pokoj6",
           "type": "Room",
           "Levelid": 5,
-          "area": 14,
-          "cube": 12.3,
-          "heating": 64.2,
-          "light": 12
+          "area": 6,
+          "cube": 66,
+          "heating": 666,
+          "light": 6666
         },
         {
         "id": 7,
         "name": "pokoj7",
         "type": "Room",
         "Levelid": 5,
-        "area": 122,
-        "cube": 12.3,
-        "heating": 64.2,
-        "light": 12
+        "area": 7,
+        "cube": 77,
+        "heating": 777,
+        "light": 7777
         }
       ]
     }
@@ -76,20 +76,20 @@
           "name": "pokoj10",
           "type": "Room",
           "Levelid": 9,
-          "area": 14,
-          "cube": 11.3,
-          "heating": 64.2,
-          "light": 1
+          "area": 10,
+          "cube": 1010,
+          "heating": 101010,
+          "light": 10101010
         },
         {
         "id": 11,
         "name": "pokoj11",
         "type": "Room",
         "Levelid": 9,
-        "area": 14,
-        "cube": 12.3,
-        "heating": 64.2,
-        "light": 2
+        "area": 11,
+        "cube": 1111,
+        "heating": 111111,
+        "light": 11111111
         }
       ]
     },
@@ -104,10 +104,10 @@
           "name": "pokoj13",
           "type": "Room",
           "Levelid": 12,
-          "area": 2,
-          "cube": 12.3,
-          "heating": 62.2,
-          "light": 12
+          "area": 13,
+          "cube": 1313,
+          "heating": 131313,
+          "light": 13131313
         },
         {
         "id": 14,
@@ -115,9 +115,9 @@
         "type": "Room",
         "Levelid": 12,
         "area": 14,
-        "cube": 12.3,
-        "heating": 61.2,
-        "light": 12
+        "cube": 1414,
+        "heating": 141414,
+        "light": 14141414
         }
       ]
     }
