@@ -98,7 +98,7 @@ public class SelectLocationPanel extends JPanel {
                 }
                 if (buildingsNames.size() != 0){
                     buildingsList = new JComboBox(buildingsNames.toArray());
-                    buildingsList.setSelectedIndex(buildingsNames.size()-1);
+                    buildingsList.setSelectedIndex(0);
                     currentLocation=buildings[0].getId();
                     buildingsList.addActionListener(e -> {
                         JComboBox cb = (JComboBox)e.getSource();
@@ -125,7 +125,7 @@ public class SelectLocationPanel extends JPanel {
 
                 if (buildingsNames.size() != 0){
                     buildingsList = new JComboBox(buildingsNames.toArray());
-                    buildingsList.setSelectedIndex(buildingsNames.size()-1);
+                    buildingsList.setSelectedIndex(0);
                     if(currentLocation==0){
                         currentLocation=levels[0].getId();
                     }
@@ -156,10 +156,11 @@ public class SelectLocationPanel extends JPanel {
 
                 if (buildingsNames.size() != 0){
                     buildingsList = new JComboBox(buildingsNames.toArray());
-                    buildingsList.setSelectedIndex(buildingsNames.size()-1);
+                    buildingsList.setSelectedIndex(0);
                     currentLocation=rooms[0].getId();
                     buildingsList.addActionListener(e -> {
                         JComboBox cb = (JComboBox)e.getSource();
+                        cb.setSelectedIndex(0);
                         String name = (String)cb.getSelectedItem();
                         for(Room b: rooms){
                             if (b.getName().equals(name)){
