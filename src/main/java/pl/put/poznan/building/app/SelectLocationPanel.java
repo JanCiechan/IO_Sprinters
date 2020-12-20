@@ -18,6 +18,7 @@ public class SelectLocationPanel extends JPanel {
     public static final int TYPE_ROOM = 2;
     private int  type;
     private int father;
+    private int fatherId;
     private  JButton addLocation=new JButton();
     private final JButton getInfo;
     private  JButton goLevels=new JButton();
@@ -30,7 +31,7 @@ public class SelectLocationPanel extends JPanel {
 
     public SelectLocationPanel(int type){
         setType(type);
-        setFather(father);
+        //setFather(father);
         switch (type){
             case TYPE_BUILDING:
                 label.setText("Wybierz budynek");
@@ -116,10 +117,11 @@ public class SelectLocationPanel extends JPanel {
 
                 buildingsList = null;
                 buildingsNames = new ArrayList<>();
-                for(Level b: levels){
-
-                        buildingsNames.add(b.getName());}
-
+                for(Level b: levels) {
+                    if (b.getBuildingid() == father) {
+                        buildingsNames.add(b.getName());
+                    }
+                }
 
                 if (buildingsNames.size() != 0){
                     buildingsList = new JComboBox(buildingsNames.toArray());
@@ -131,6 +133,7 @@ public class SelectLocationPanel extends JPanel {
                         for(Level b: levels){
                             if (b.getName().equals(name)){
                                 currentLocation = b.getId();
+                                System.out.println("level location = "  + currentLocation);
                                 break;
                             }
                         }
@@ -144,7 +147,9 @@ public class SelectLocationPanel extends JPanel {
                 buildingsList = null;
                 buildingsNames = new ArrayList<>();
                 for(Room b: rooms){
-                    buildingsNames.add(b.getName());
+                    if (b.getLevelid() == father) {
+                        buildingsNames.add(b.getName());
+                    }
                 }
 
                 if (buildingsNames.size() != 0){
@@ -214,6 +219,13 @@ public class SelectLocationPanel extends JPanel {
     }
     public int getCurrentLocation(){
         return currentLocation;
+    }
+
+    public String getCurrentLocationName(){
+        return buildingsNames.get(fatherId);
+    }
+    public void setCurrentLocation(int currentLocation){
+        this.currentLocation = currentLocation;
     }
 
     public int getFather() {

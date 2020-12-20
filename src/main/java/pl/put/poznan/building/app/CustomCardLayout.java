@@ -5,6 +5,7 @@ import pl.put.poznan.building.logic.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.desktop.SystemEventListener;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -78,9 +79,12 @@ public class CustomCardLayout extends JFrame {
         });
         selectBuildingpanel.addGoLevelsInfoActionListener(e -> {
             selectLevelpanel.setFather(selectBuildingpanel.getCurrentLocation());
+            selectLevelpanel.setBuildingsNames(getLevelsNamesList(selectBuildingpanel.getCurrentLocation()),selectLevelpanel.getType());
             cardLayout.show(cardPanel,"10");
         });
         selectLevelpanel.addGoLevelsInfoActionListener(e -> {
+            selectRoompanel.setFather(selectLevelpanel.getCurrentLocation());
+            selectRoompanel.setBuildingsNames(getRoomsNamesList(selectLevelpanel.getCurrentLocation()),selectRoompanel.getType());
             cardLayout.show(cardPanel,"11");
         });
         selectLevelpanel.addBackInfoActionListener(getBackActionListener("5"));
@@ -264,6 +268,35 @@ public class CustomCardLayout extends JFrame {
             buildingsNames.add(b.getName());
         }
         return buildingsNames;
+    }
+
+    private ArrayList<String> getLevelsNamesList(int id){
+        ArrayList<String> levelNames = new ArrayList<>();
+        String json = ConnectionProvider.getDataFromRestApi(String.valueOf(id));
+        Gson gson = new Gson();
+        Building building = gson.fromJson(json, Building.class);
+
+        for(Level l: building.levels){
+            levelNames.add(l.getName());
+            System.out.println(l.getName());
+        }
+
+        return levelNames;
+    }
+
+    private ArrayList<String> getRoomsNamesList(int id){
+        ArrayList<String> levelNames = new ArrayList<>();
+        System.out.println("Id levelu: " + id);
+        String json = ConnectionProvider.getDataFromRestApi(String.valueOf(id));
+        Gson gson = new Gson();
+        Level level = gson.fromJson(json, Level.class);
+
+        for(Room r: level.rooms){
+            levelNames.add(r.getName());
+            System.out.println(r.getName());
+        }
+
+        return levelNames;
     }
 
     private ActionListener getBackActionListener(String previous){
