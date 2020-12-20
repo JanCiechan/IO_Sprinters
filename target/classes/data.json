@@ -52,7 +52,7 @@
         "name": "pokoj7",
         "type": "Room",
         "Levelid": 5,
-        "area": 14,
+        "area": 122,
         "cube": 12.3,
         "heating": 64.2,
         "light": 12
@@ -77,9 +77,9 @@
           "type": "Room",
           "Levelid": 9,
           "area": 14,
-          "cube": 12.3,
+          "cube": 11.3,
           "heating": 64.2,
-          "light": 12
+          "light": 1
         },
         {
         "id": 11,
@@ -89,7 +89,7 @@
         "area": 14,
         "cube": 12.3,
         "heating": 64.2,
-        "light": 12
+        "light": 2
         }
       ]
     },
@@ -104,9 +104,9 @@
           "name": "pokoj13",
           "type": "Room",
           "Levelid": 12,
-          "area": 14,
+          "area": 2,
           "cube": 12.3,
-          "heating": 64.2,
+          "heating": 62.2,
           "light": 12
         },
         {
@@ -116,7 +116,7 @@
         "Levelid": 12,
         "area": 14,
         "cube": 12.3,
-        "heating": 64.2,
+        "heating": 61.2,
         "light": 12
         }
       ]

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 public class GetInfoPanel extends JPanel {
 
+
     private final JButton back;
     private JLabel amountLabel;
     private JLabel area;
@@ -23,7 +24,7 @@ public class GetInfoPanel extends JPanel {
     public static final int TYPE_BUILDING = 0;
     public static final int TYPE_LEVEL = 1;
     public static final int TYPE_ROOM = 2;
-
+    public static final int TYPE_ROOM_SINGULAR = 3;
     public GetInfoPanel(int type){
 
         GridBagLayout mainPanelLayout = new GridBagLayout();
@@ -65,6 +66,10 @@ public class GetInfoPanel extends JPanel {
                 buildingTitleLabel.setText(ROOMS_AMOUNT);
                 label.setText(ROOMS_INFO);
                 break;
+            case TYPE_ROOM_SINGULAR:
+                    buildingTitleLabel.setText("Informacje o pokoju");
+                    label.setText("cowabunga");
+                    break;
         }
 
         label.setFont(new Font("Serif", Font.BOLD, 16));
@@ -78,13 +83,14 @@ public class GetInfoPanel extends JPanel {
         gbc.insets = new Insets(5,5,5,5);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(label,gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        panel.add(buildingTitleLabel, gbc);
+      if(type!= TYPE_ROOM_SINGULAR) {
+          gbc.gridx = 0;
+          gbc.gridy = 0;
+          panel.add(label, gbc);
+      }
+          gbc.gridx = 0;
+          gbc.gridy = 1;
+          panel.add(buildingTitleLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;

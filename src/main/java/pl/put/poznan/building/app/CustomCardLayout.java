@@ -36,6 +36,7 @@ public class CustomCardLayout extends JFrame {
         GetInfoPanel getInfoPanelBuildings = new GetInfoPanel(GetInfoPanel.TYPE_BUILDING);
         GetInfoPanel getInfoPanelLevels = new GetInfoPanel(GetInfoPanel.TYPE_LEVEL);
         GetInfoPanel getInfoPanelRooms = new GetInfoPanel(GetInfoPanel.TYPE_ROOM    );
+        GetInfoPanel getInfoPanelRoom = new GetInfoPanel(GetInfoPanel.TYPE_ROOM_SINGULAR);
         SelectLocationPanel selectBuildingpanel = new SelectLocationPanel(SelectLocationPanel.TYPE_BUILDING);
         SelectLocationPanel selectLevelpanel = new SelectLocationPanel(SelectLocationPanel.TYPE_LEVEL);
         SelectLocationPanel selectRoompanel = new SelectLocationPanel(SelectLocationPanel.TYPE_ROOM);
@@ -119,16 +120,28 @@ public class CustomCardLayout extends JFrame {
         selectBuildingpanel.addAddLevelsActionListener(e -> {
             cardLayout.show(cardPanel,"7");
         });
+        selectRoompanel.addGetInfoInfoActionListener(e -> {
+            cardLayout.show(cardPanel,"12");
+            int i = selectRoompanel.getCurrentLocation();
 
-
+            getInfoPanelRoom.setAreaLabelText(ConnectionProvider.getDataFromRestApi("area/"+String.valueOf(i)));
+            getInfoPanelRoom.setCubatureLabelText(ConnectionProvider.getDataFromRestApi("cube/"+String.valueOf(i)));
+            getInfoPanelRoom.setHeatingLabelText(ConnectionProvider.getDataFromRestApi("powerusage/"+String.valueOf(i)));
+            getInfoPanelRoom.setLightLabelText(ConnectionProvider.getDataFromRestApi("lightinensity/"+String.valueOf(i)));
+        });
+        getInfoPanelRoom.addBackInfoActionListener(getBackActionListener("11"));
         selectLevelpanel.addGetInfoInfoActionListener(e -> {
             cardLayout.show(cardPanel,"9");
             int i = selectLevelpanel.getCurrentLocation();
             getInfoPanelRooms.setAmountLabelText(String.valueOf(countRooms(i)));
-            getInfoPanelRooms.setAreaLabelText(String.valueOf(calculateArea(i, Level.class)));
+            /*getInfoPanelRooms.setAreaLabelText(String.valueOf(calculateArea(i, Level.class)));
             getInfoPanelRooms.setCubatureLabelText(String.valueOf(calculateCubature(i, Level.class)));
             getInfoPanelRooms.setHeatingLabelText(String.valueOf(calculateHeating(i, Level.class)));
-            getInfoPanelRooms.setLightLabelText(String.valueOf(calculateArea(i, Level.class)));
+            getInfoPanelRooms.setLightLabelText(String.valueOf(calculateArea(i, Level.class)));*/
+            getInfoPanelRooms.setAreaLabelText(ConnectionProvider.getDataFromRestApi("area/"+String.valueOf(i)));
+            getInfoPanelRooms.setCubatureLabelText(ConnectionProvider.getDataFromRestApi("cube/"+String.valueOf(i)));
+            getInfoPanelRooms.setHeatingLabelText(ConnectionProvider.getDataFromRestApi("powerusage/"+String.valueOf(i)));
+            getInfoPanelRooms.setLightLabelText(ConnectionProvider.getDataFromRestApi("lightinensity/"+String.valueOf(i)));
         });
         selectBuildingpanel.addGetInfoInfoActionListener(e -> {
             cardLayout.show(cardPanel, "6");
@@ -152,6 +165,7 @@ public class CustomCardLayout extends JFrame {
         cardPanel.add(getInfoPanelRooms,"9");
         cardPanel.add(selectLevelpanel,"10");
         cardPanel.add(selectRoompanel,"11");
+        cardPanel.add(getInfoPanelRoom,"12");
 
         getContentPane().add(cardPanel, BorderLayout.CENTER);
     }

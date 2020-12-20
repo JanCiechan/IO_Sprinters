@@ -131,6 +131,7 @@ public class SelectLocationPanel extends JPanel {
                         for(Level b: levels){
                             if (b.getName().equals(name)){
                                 currentLocation = b.getId();
+                                break;
                             }
                         }
                     });
