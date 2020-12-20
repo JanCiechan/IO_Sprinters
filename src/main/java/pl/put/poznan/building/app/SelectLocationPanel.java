@@ -233,9 +233,6 @@ public class SelectLocationPanel extends JPanel {
     public int getFather() {
         return father;
     }
-    public void setCurrentLocation(int i){
-        this.currentLocation=i;
-    }
     public void setFather(int father) {
         this.father = father;
     }
