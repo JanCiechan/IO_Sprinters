@@ -2,6 +2,7 @@ package pl.put.poznan.building.app;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuPanel extends JPanel {
@@ -28,6 +29,10 @@ public class MenuPanel extends JPanel {
         addLocation.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         getInfo.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         goBuildings.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+
+        addLocation.addActionListener(e -> {
+
+        });
 
         gbc.insets = new Insets(5,5,5,5);
 

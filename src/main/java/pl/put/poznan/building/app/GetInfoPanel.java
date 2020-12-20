@@ -8,6 +8,12 @@ public class GetInfoPanel extends JPanel {
 
     private final JButton back;
     private JLabel amountLabel;
+    private JLabel area;
+    private JLabel heating;
+    private JLabel cubature;
+    private JLabel light;
+
+
     private static final String BUILDINGS_INFO = "Informacje o wszystkich budynkach";
     private static final String BUILDINGS_AMOUNT = "Ilość budynków: ";
     private static final String LEVELS_INFO = "Informacje o wszystkich poziomach";
@@ -24,6 +30,10 @@ public class GetInfoPanel extends JPanel {
         this.setLayout(mainPanelLayout);
         GridBagConstraints gbcMainPanel = new GridBagConstraints();
         amountLabel = new JLabel();
+        area = new JLabel();
+        heating = new JLabel();
+        cubature = new JLabel();
+        light = new JLabel();
 
         JPanel panel = new JPanel();
         GridBagLayout layout = new GridBagLayout();
@@ -36,6 +46,11 @@ public class GetInfoPanel extends JPanel {
         GridBagConstraints gbcButtons4 = new GridBagConstraints();
         JLabel buildingTitleLabel =  new JLabel();
         JLabel label = new JLabel();
+
+        JLabel areaLabel = new JLabel("Powierchnia");
+        JLabel heatingLabel = new JLabel("Energia ogrzewania");
+        JLabel cubatureLabel = new JLabel("Kubatura");
+        JLabel lightLabel = new JLabel("Moc oświetlenia");
 
         switch (type){
             case TYPE_BUILDING:
@@ -75,6 +90,38 @@ public class GetInfoPanel extends JPanel {
         gbc.gridy = 1;
         panel.add(amountLabel, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panel.add(areaLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        panel.add(area, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(heatingLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        panel.add(heating, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        panel.add(cubatureLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        panel.add(cubature, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        panel.add(lightLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        panel.add(light, gbc);
+
         gbcButtons4.insets = new Insets(30,5,30,5);
         gbcButtons4.gridy = 0;
         gbcButtons4.gridx = 0;
@@ -97,4 +144,17 @@ public class GetInfoPanel extends JPanel {
     public void setAmountLabelText(String text) {
         this.amountLabel.setText(text);
     }
+    public void setAreaLabelText(String text) {
+        this.area.setText(text);
+    }
+    public void setHeatingLabelText(String text) {
+        this.heating.setText(text);
+    }
+    public void setLightLabelText(String text) {
+        this.light.setText(text);
+    }
+    public void setCubatureLabelText(String text) {
+        this.cubature.setText(text);
+    }
+
 }

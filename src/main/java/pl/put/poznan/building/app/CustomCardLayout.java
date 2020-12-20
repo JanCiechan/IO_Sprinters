@@ -1,10 +1,7 @@
 package pl.put.poznan.building.app;
 
 import com.google.gson.Gson;
-import pl.put.poznan.building.logic.Building;
-import pl.put.poznan.building.logic.ConnectionProvider;
-import pl.put.poznan.building.logic.Level;
-import pl.put.poznan.building.logic.Room;
+import pl.put.poznan.building.logic.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +45,10 @@ public class CustomCardLayout extends JFrame {
         menuPanel.addGetInfoActionListener(e -> {
             cardLayout.show(cardPanel, "4");
             getInfoPanelBuildings.setAmountLabelText(String.valueOf(countBuildings()));
+            getInfoPanelBuildings.setAreaLabelText(String.valueOf(calculateArea(selectBuildingpanel.getCurrentLocation(), Building.class)));
+            getInfoPanelBuildings.setCubatureLabelText(String.valueOf(calculateCubature(selectBuildingpanel.getCurrentLocation(), Building.class)));
+            getInfoPanelBuildings.setHeatingLabelText(String.valueOf(calculateHeating(selectBuildingpanel.getCurrentLocation(), Building.class)));
+            getInfoPanelBuildings.setLightLabelText(String.valueOf(calculateArea(selectBuildingpanel.getCurrentLocation(), Building.class)));
         });
         menuPanel.addGoBuildingsActionListener(e -> {
             cardLayout.show(cardPanel, "5");
@@ -69,7 +70,7 @@ public class CustomCardLayout extends JFrame {
         });
         addBuildingPanel.addSaveActionListener(e -> {
             String buildingName = addBuildingPanel.getBuildingNameTFText();
-            Building building = new Building(idCounter++,buildingName,"building");
+            Building building = new Building(idCounter++,buildingName,"Building");
             Gson gson = new Gson();
             String json = gson.toJson(building);
             data = ConnectionProvider.postDataToRestApi(json);
@@ -124,11 +125,19 @@ public class CustomCardLayout extends JFrame {
             cardLayout.show(cardPanel,"9");
             int i = selectLevelpanel.getCurrentLocation();
             getInfoPanelRooms.setAmountLabelText(String.valueOf(countRooms(i)));
+            getInfoPanelRooms.setAreaLabelText(String.valueOf(calculateArea(i, Level.class)));
+            getInfoPanelRooms.setCubatureLabelText(String.valueOf(calculateCubature(i, Level.class)));
+            getInfoPanelRooms.setHeatingLabelText(String.valueOf(calculateHeating(i, Level.class)));
+            getInfoPanelRooms.setLightLabelText(String.valueOf(calculateArea(i, Level.class)));
         });
         selectBuildingpanel.addGetInfoInfoActionListener(e -> {
             cardLayout.show(cardPanel, "6");
-                int i = selectBuildingpanel.getCurrentLocation();
-                getInfoPanelLevels.setAmountLabelText(String.valueOf(countLevels(i)));
+            int i = selectBuildingpanel.getCurrentLocation();
+            getInfoPanelLevels.setAmountLabelText(String.valueOf(countLevels(i)));
+            getInfoPanelLevels.setAreaLabelText(String.valueOf(calculateArea(i, Building.class)));
+            getInfoPanelLevels.setCubatureLabelText(String.valueOf(calculateCubature(i, Building.class)));
+            getInfoPanelLevels.setHeatingLabelText(String.valueOf(calculateHeating(i, Building.class)));
+            getInfoPanelLevels.setLightLabelText(String.valueOf(calculateArea(i, Building.class)));
 
         });
 
@@ -161,8 +170,6 @@ public class CustomCardLayout extends JFrame {
     private int countLevels(int id){
         Gson gson=new Gson();
         Building building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)),Building.class);
-
-
         return building.getAmountOfLevels();
     }
 
@@ -176,6 +183,62 @@ public class CustomCardLayout extends JFrame {
         String json = ConnectionProvider.getDataFromRestApi(type);
         Gson gson = new Gson();
         return gson.fromJson(json, Building.class);
+    }
+
+    private float calculateArea(int id, Class<?> cls){
+        Gson gson=new Gson();
+        if (Building.class.equals(cls)) {
+            Building building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Building.class);
+            return building.getArea();
+        } else if (Level.class.equals(cls)) {
+            Level level = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Level.class);
+            return level.getArea();
+        } else {
+            Room room = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Room.class);
+            return room.getArea();
+        }
+    }
+
+    private float calculateCubature(int id, Class<?> cls){
+        Gson gson=new Gson();
+        if (Building.class.equals(cls)) {
+            Building building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Building.class);
+            return building.getCubature();
+        } else if (Level.class.equals(cls)) {
+            Level level = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Level.class);
+            return level.getCubature();
+        } else {
+            Room room = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Room.class);
+            return room.getCubature();
+        }
+    }
+
+    private float calculateHeating(int id, Class<?> cls){
+        Gson gson=new Gson();
+        if (Building.class.equals(cls)) {
+            Building building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Building.class);
+            return building.getHeating();
+        } else if (Level.class.equals(cls)) {
+            Level level = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Level.class);
+            return level.getHeating();
+        } else {
+            Room room = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Room.class);
+            return room.getHeating();
+        }
+    }
+
+    private float calculateLight(int id, Class<?> cls){
+        Gson gson=new Gson();
+        if (Building.class.equals(cls)) {
+            Building building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Building.class);
+            return building.getLight();
+        } else if (Level.class.equals(cls)) {
+            Level level = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Level.class);
+            return level.getLight();
+        } else {
+            Room room = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Room.class);
+            return room.getLight();
+        }
     }
 
 
