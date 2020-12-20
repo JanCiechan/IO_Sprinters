@@ -26,7 +26,7 @@ public class SelectLocationPanel extends JPanel {
     private JComboBox buildingsList;
     private final JLabel label=new JLabel();
     private final GridBagConstraints gbc;
-    private int currentLocation;
+    public int currentLocation;
 
     public SelectLocationPanel(int type){
         setType(type);
@@ -124,7 +124,9 @@ public class SelectLocationPanel extends JPanel {
                 if (buildingsNames.size() != 0){
                     buildingsList = new JComboBox(buildingsNames.toArray());
                     buildingsList.setSelectedIndex(buildingsNames.size()-1);
-                    currentLocation=levels[0].getId();
+                    if(currentLocation==0){
+                        currentLocation=levels[0].getId();
+                    }
                     buildingsList.addActionListener(e -> {
                         JComboBox cb = (JComboBox)e.getSource();
                         String name = (String)cb.getSelectedItem();
@@ -219,7 +221,9 @@ public class SelectLocationPanel extends JPanel {
     public int getFather() {
         return father;
     }
-
+    public void setCurrentLocation(int i){
+        this.currentLocation=i;
+    }
     public void setFather(int father) {
         this.father = father;
     }

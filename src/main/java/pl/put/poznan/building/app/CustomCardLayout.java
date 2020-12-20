@@ -21,7 +21,8 @@ public class CustomCardLayout extends JFrame {
 
         setTitle("Building Info");
         setSize(800, 450);
-        idCounter=countBuildings();
+        Location[] locations = getLocations("Location");
+        idCounter= locations.length+1;
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
@@ -61,6 +62,7 @@ public class CustomCardLayout extends JFrame {
            Gson gson = new Gson();
             String json=gson.toJson(level);
             data = ConnectionProvider.postDataToRestApi(json);
+            selectLevelpanel.setCurrentLocation(idCounter-1);
         });
         addRoomPanel.addSaveActionListener(e -> {
             Room room=new Room(idCounter++,addRoomPanel.getBuildingNameTFText(),"Room",Integer.parseInt(addRoomPanel.getLevelId()),Float.parseFloat(addRoomPanel.getArea()),Float.parseFloat(addRoomPanel.getCubature()),Float.parseFloat(addRoomPanel.getHeating()),Float.parseFloat(addRoomPanel.getLight()));
@@ -68,6 +70,7 @@ public class CustomCardLayout extends JFrame {
 
             String json = gson.toJson(room);
             data=ConnectionProvider.postDataToRestApi(json);
+            
         });
         addBuildingPanel.addSaveActionListener(e -> {
             String buildingName = addBuildingPanel.getBuildingNameTFText();
@@ -75,12 +78,18 @@ public class CustomCardLayout extends JFrame {
             Gson gson = new Gson();
             String json = gson.toJson(building);
             data = ConnectionProvider.postDataToRestApi(json);
+
+            selectBuildingpanel.setCurrentLocation(idCounter-1);
         });
         selectBuildingpanel.addGoLevelsInfoActionListener(e -> {
+            selectLevelpanel.setBuildingsNames(getBuildingNamesList(),selectLevelpanel.getType());
             selectLevelpanel.setFather(selectBuildingpanel.getCurrentLocation());
             cardLayout.show(cardPanel,"10");
         });
         selectLevelpanel.addGoLevelsInfoActionListener(e -> {
+            selectRoompanel.setBuildingsNames(getBuildingNamesList(),selectRoompanel.getType());
+
+            selectRoompanel.setFather(selectLevelpanel.getCurrentLocation());
             cardLayout.show(cardPanel,"11");
         });
         selectLevelpanel.addBackInfoActionListener(getBackActionListener("5"));
@@ -119,8 +128,10 @@ public class CustomCardLayout extends JFrame {
         addRoomPanel.addBackActionListener(getBackActionListener("10"));
         selectBuildingpanel.addAddLevelsActionListener(e -> {
             cardLayout.show(cardPanel,"7");
+
         });
         selectRoompanel.addGetInfoInfoActionListener(e -> {
+
             cardLayout.show(cardPanel,"12");
             int i = selectRoompanel.getCurrentLocation();
 
