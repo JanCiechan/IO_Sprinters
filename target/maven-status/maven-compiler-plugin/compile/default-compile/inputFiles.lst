@@ -1,3 +1,13 @@
-D:\Java\IO_Sprinters\src\main\java\pl\put\poznan\transformer\logic\TextTransformer.java
-D:\Java\IO_Sprinters\src\main\java\pl\put\poznan\transformer\rest\TextTransformerController.java
-D:\Java\IO_Sprinters\src\main\java\pl\put\poznan\transformer\app\TextTransformerApplication.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\app\AddBuildingPanel.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\logic\Location.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\app\SelectLocationPanel.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\logic\ConnectionProvider.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\app\GetInfoPanel.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\app\ServerOutputPanel.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\logic\Level.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\rest\LocationController.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\app\BuildingInfoApplication.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\app\CustomCardLayout.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\logic\Building.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\logic\Room.java
+D:\Dokumenty\IOEND\IO_Sprinters\src\main\java\pl\put\poznan\building\app\MenuPanel.java
