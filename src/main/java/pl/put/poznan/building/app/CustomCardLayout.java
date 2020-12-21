@@ -22,7 +22,9 @@ public class CustomCardLayout extends JFrame {
 
         setTitle("Building Info");
         setSize(800, 450);
-        idCounter=countBuildings();
+        Building[] buildings = getLocations("Location");//chyba count lokejszyn co?
+
+        idCounter=buildings.length+1;
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
@@ -57,14 +59,14 @@ public class CustomCardLayout extends JFrame {
             selectBuildingpanel.setBuildingsNames(getBuildingNamesList(),selectBuildingpanel.getType());
         });
         addLevelPanel.addSaveActionListener(e->{
-           Level level=new Level(idCounter++,addLevelPanel.getBuildingNameTFText(),"Level",Integer.parseInt(addLevelPanel.getBuildingIdTFText()));
-
+          // Level level=new Level(idCounter++,addLevelPanel.getBuildingNameTFText(),"Level",Integer.parseInt(addLevelPanel.getBuildingIdTFText()));
+            Level level=new Level(idCounter++,addLevelPanel.getBuildingNameTFText(),"Level",selectBuildingpanel.getCurrentLocation());
            Gson gson = new Gson();
             String json=gson.toJson(level);
             data = ConnectionProvider.postDataToRestApi(json);
         });
         addRoomPanel.addSaveActionListener(e -> {
-            Room room=new Room(idCounter++,addRoomPanel.getBuildingNameTFText(),"Room",Integer.parseInt(addRoomPanel.getLevelId()),Float.parseFloat(addRoomPanel.getArea()),Float.parseFloat(addRoomPanel.getCubature()),Float.parseFloat(addRoomPanel.getHeating()),Float.parseFloat(addRoomPanel.getLight()));
+            Room room=new Room(idCounter++,addRoomPanel.getBuildingNameTFText(),"Room",selectLevelpanel.getCurrentLocation(),Float.parseFloat(addRoomPanel.getArea()),Float.parseFloat(addRoomPanel.getCubature()),Float.parseFloat(addRoomPanel.getHeating()),Float.parseFloat(addRoomPanel.getLight()));
             Gson gson = new Gson();
 
             String json = gson.toJson(room);
@@ -278,7 +280,7 @@ public class CustomCardLayout extends JFrame {
 
         for(Level l: building.levels){
             levelNames.add(l.getName());
-            System.out.println(l.getName());
+           // System.out.println(l.getName());
         }
 
         return levelNames;
@@ -286,14 +288,14 @@ public class CustomCardLayout extends JFrame {
 
     private ArrayList<String> getRoomsNamesList(int id){
         ArrayList<String> levelNames = new ArrayList<>();
-        System.out.println("Id levelu: " + id);
+       // System.out.println("Id levelu: " + id);
         String json = ConnectionProvider.getDataFromRestApi(String.valueOf(id));
         Gson gson = new Gson();
         Level level = gson.fromJson(json, Level.class);
 
         for(Room r: level.rooms){
             levelNames.add(r.getName());
-            System.out.println(r.getName());
+          //  System.out.println(r.getName());
         }
 
         return levelNames;

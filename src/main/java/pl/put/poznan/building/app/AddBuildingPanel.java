@@ -93,22 +93,22 @@ public class AddBuildingPanel extends JPanel {
             gbc.gridy = 2;
             JLabel BuildingId = new JLabel("Building id");
             BuildingId.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-            panel.add(BuildingId,gbc);
+            //panel.add(BuildingId,gbc);
             gbc.gridx=1;
 
             BuildingIdLabel = new JTextField(40);
-            panel.add(BuildingIdLabel,gbc);
+            //panel.add(BuildingIdLabel,gbc);
         }
         else if(type==TYPE_ROOM){
             gbc.gridx = 1;
             gbc.gridy = 3;
 
             Levelid = new JTextField(40);
-            panel.add(Levelid,gbc);
+            //panel.add(Levelid,gbc);
             gbc.gridx = 0;
             JLabel LevelidLabel=new JLabel("Level id");
             LevelidLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-            panel.add(LevelidLabel,gbc);
+           // panel.add(LevelidLabel,gbc);
             gbc.gridy=4;
             gbc.gridx = 1;
 

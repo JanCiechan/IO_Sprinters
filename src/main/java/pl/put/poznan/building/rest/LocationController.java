@@ -318,7 +318,7 @@ public class LocationController {
     @RequestMapping(method = RequestMethod.DELETE,produces = "application/json")
     public String deleteByID(@RequestBody String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
-        System.out.println(jsonObject);
+        //System.out.println(jsonObject);
         String wiadomosc="";
         for(Building item:buildingList){
             if (item.getId()==jsonObject.getInt("id")){
