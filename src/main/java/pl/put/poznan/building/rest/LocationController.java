@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.building.logic.*;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -25,15 +26,20 @@ public class LocationController {
 
 
     @PostConstruct
-    public void dataLoader() throws Exception {
+    public void dataLoader() {
         String file = "src/main/resources/data.json";
-        String jsonFile = new String(Files.readAllBytes(Paths.get(file)));
-        JSONArray locations = new JSONArray(jsonFile);
-        for (int i=0; i < locations.length(); i++) {
-            String location = locations.getString(i);
-            post(location);
+        String jsonFile = null;
+        try {
+            jsonFile = new String(Files.readAllBytes(Paths.get(file)));
+            JSONArray locations = new JSONArray(jsonFile);
+            for (int i=0; i < locations.length(); i++) {
+                String location = locations.getString(i);
+                post(location);
+            }
+            refresh();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
         }
-        refresh();
     }
 
     @RequestMapping(method = RequestMethod.GET,value="Location",produces = "application/json")

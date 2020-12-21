@@ -1,0 +1,13 @@
+pl\put\poznan\building\app\AddBuildingPanel.class
+pl\put\poznan\building\logic\Level.class
+pl\put\poznan\building\logic\Room.class
+pl\put\poznan\building\logic\Building.class
+pl\put\poznan\building\logic\Location.class
+pl\put\poznan\building\app\GetInfoPanel.class
+pl\put\poznan\building\app\ServerOutputPanel.class
+pl\put\poznan\building\app\SelectLocationPanel.class
+pl\put\poznan\building\app\CustomCardLayout.class
+pl\put\poznan\building\rest\LocationController.class
+pl\put\poznan\building\app\MenuPanel.class
+pl\put\poznan\building\logic\ConnectionProvider.class
+pl\put\poznan\building\app\BuildingInfoApplication.class
