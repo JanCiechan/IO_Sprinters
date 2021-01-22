@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Pozwala na dodawanie lokacji i wyswietlania informacji o nich.
  */
-public class Location {
+public class Location implements Location_interface {
     /**
      * Unikalny dentyfikator
      */
@@ -29,6 +29,7 @@ public class Location {
         this.type=type;
         this.id = id;
         this.name = name;
+
     }
 
 
@@ -76,5 +77,62 @@ public class Location {
     @Override
     public String toString() {
         return "Location id: " + this.getId() + " Location name: " + this.name + this.type ;
+    }
+
+
+
+    @Override
+    public float getArea() {
+        return 0;
+    }
+
+    @Override
+    public float getCubature() {
+        return 0;
+    }
+
+    @Override
+    public float getLight() {
+        return 0;
+    }
+
+    @Override
+    public float getHeating() {
+        return 0;
+    }
+
+    @Override
+    public int getFatherID() {
+        return 0;
+    }
+
+    @Override
+    public void fillList(List<Location> addlocations) {
+
+    }
+
+    @Override
+    public void setArea(float area) {
+
+    }
+
+    @Override
+    public void setCube(float cube) {
+
+    }
+
+    @Override
+    public void setHeating(float heating) {
+
+    }
+
+    @Override
+    public void setLight(float light) {
+
+    }
+
+    @Override
+    public int getAmountOfUnderlings() {
+        return 0;
     }
 }

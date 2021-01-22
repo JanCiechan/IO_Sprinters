@@ -18,7 +18,7 @@ public class Level extends Location {
     /**
      * Lista pokoi
      */
-    public List<Room> rooms;
+    public List<Location> rooms;
 
     /**
      * Konstruktor klasy
@@ -37,11 +37,11 @@ public class Level extends Location {
      * Pozwala wprowadzic liste pokoi przypisana do poziomu
      * @param addrooms Lista pokoi
      */
-    public void fillList(List<Room> addrooms) {
+    public void fillList(List<Location> addrooms) {
         rooms.clear();
         for(int i = 0;i<addrooms.size();i++)
 
-            if (addrooms.get(i).getLevelid() == this.getId()) {
+            if (addrooms.get(i).getFatherID() == this.getId()) {
                 rooms.add(addrooms.get((i)));
             }
         }
@@ -52,7 +52,7 @@ public class Level extends Location {
      */
     public float getArea(){
             float result=0;
-            for (Room item: rooms){
+            for (Location item: rooms){
 
                 result+=item.getArea();
 
@@ -65,7 +65,7 @@ public class Level extends Location {
      */
     public float getCubature(){
         float result=0;
-        for (Room item: rooms){
+        for (Location item: rooms){
             result+=item.getCubature();
         }
         return result;
@@ -78,7 +78,7 @@ public class Level extends Location {
 
     public float getLight(){
         float result=0;
-        for (Room item: rooms){
+        for (Location item: rooms){
             result+=item.getLight();
         }
         return result;
@@ -91,7 +91,7 @@ public class Level extends Location {
 
     public float getHeating(){
         float result=0;
-        for (Room item: rooms){
+        for (Location item: rooms){
             result+=item.getHeating();
         }
         return result;
@@ -102,14 +102,14 @@ public class Level extends Location {
      * @return Zwraca identyfikator budynku
      * */
 
-    public int getBuildingid(){
+    public int getFatherID(){
         return this.Buildingid;
     }
     /**
      * Pozwala pobrac liczbe pomieszczen na poziomie
      * @return Zwraca liczbe pomieszczen na poziomie
      * */
-    public int getAmountOfRooms() {
+    public int getAmountOfUnderlings() {
         return rooms.size();
     }
 }
