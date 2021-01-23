@@ -28,6 +28,7 @@ public class SelectLocationPanel extends JPanel {
     private final JLabel label=new JLabel();
     private final GridBagConstraints gbc;
     public int currentLocation;
+    public Building[] buildings;
 
     public SelectLocationPanel(int type){
         setType(type);
@@ -90,7 +91,7 @@ public class SelectLocationPanel extends JPanel {
         switch(getType()){
             case TYPE_BUILDING:
                 json = ConnectionProvider.getDataFromRestApi("Buildings");
-                Building[] buildings = gson.fromJson(json, Building[].class);
+                buildings = gson.fromJson(json, Building[].class);
                 buildingsList = null;
                 buildingsNames = new ArrayList<>();
                 for(Building b: buildings){
@@ -118,7 +119,7 @@ public class SelectLocationPanel extends JPanel {
                 buildingsList = null;
                 buildingsNames = new ArrayList<>();
                 for(Level b: levels) {
-                    if (b.getBuildingid() == father) {
+                    if (b.getFatherID() == father) {
                         buildingsNames.add(b.getName());
                     }
                 }
@@ -149,7 +150,7 @@ public class SelectLocationPanel extends JPanel {
                 buildingsList = null;
                 buildingsNames = new ArrayList<>();
                 for(Room b: rooms){
-                    if (b.getLevelid() == father) {
+                    if (b.getFatherID() == father) {
                         buildingsNames.add(b.getName());
                     }
                 }

@@ -20,9 +20,9 @@ public class LocationController {
 
     private static final Logger logger = LoggerFactory.getLogger(LocationController.class);
     private List<Location> locationList = new ArrayList<>();
-    private  List<Room> roomList= new ArrayList<>();
-    private  List<Level> levelList= new ArrayList<>();
-    private  List<Building> buildingList= new ArrayList<>();
+    private  List<Location> roomList= new ArrayList<>();
+    private  List<Location> levelList= new ArrayList<>();
+    private  List<Location> buildingList= new ArrayList<>();
 
 
     @PostConstruct
@@ -47,26 +47,26 @@ public class LocationController {
         return locationList;
     }
     @RequestMapping(method = RequestMethod.GET,value="Rooms",produces = "application/json")
-    public List<Room> getAllRooms() {
+    public List<Location> getAllRooms() {
         return roomList;
 
     }
 
     @RequestMapping(method = RequestMethod.GET,value="Levels",produces = "application/json")
-    public List<Level> getAllLevels() {
+    public List<Location> getAllLevels() {
 
         return levelList;
     }
     @RequestMapping(method = RequestMethod.GET,value="Buildings",produces = "application/json")
-    public List<Building> getAllBuildings() {
+    public List<Location> getAllBuildings() {
         return buildingList;
     }
     @RequestMapping(method=RequestMethod.GET,value="refresh",produces="application/json")
     public String refresh(){
-        for(Level item:levelList){
+        for(Location item:levelList){
             item.fillList(roomList);
         }
-        for(Building item:buildingList){
+        for(Location item:buildingList){
             item.fillList(levelList);
         }
         return "Data refreshed";
@@ -85,17 +85,17 @@ public class LocationController {
         float result=0;
         String type=CheckType(id);
         if(type.equals("Building")){
-            for(Building item:buildingList){
+            for(Location item:buildingList){
                 if(item.getId()==id) return item.getArea();
             }
         }
         else if(type.equals("Level")){
-            for(Level item:levelList){
+            for(Location item:levelList){
                 if(item.getId()==id) return item.getArea();
             }
         }
         else if(type.equals("Room")){
-            for(Room item:roomList){
+            for(Location item:roomList){
                 if(item.getId()==id) return item.getArea();
             }
         }
@@ -107,17 +107,17 @@ public class LocationController {
         float result=0;
         String type=CheckType(id);
         if(type.equals("Building")){
-            for(Building item:buildingList){
+            for(Location item:buildingList){
                 if(item.getId()==id) return item.getCubature();
             }
         }
         else if(type.equals("Level")){
-            for(Level item:levelList){
+            for(Location item:levelList){
                 if(item.getId()==id) return item.getCubature();
             }
         }
         else if(type.equals("Room")){
-            for(Room item:roomList){
+            for(Location item:roomList){
                 if(item.getId()==id) return item.getCubature();
             }
         }
@@ -129,17 +129,17 @@ public class LocationController {
         float result=0;
         String type=CheckType(id);
         if(type.equals("Building")){
-            for(Building item:buildingList){
+            for(Location item:buildingList){
                 if(item.getId()==id) return item.getLight();
             }
         }
         else if(type.equals("Level")){
-            for(Level item:levelList){
+            for(Location item:levelList){
                 if(item.getId()==id) return item.getLight();
             }
         }
         else if(type.equals("Room")){
-            for(Room item:roomList){
+            for(Location item:roomList){
                 if(item.getId()==id) return item.getLight();
             }
         }
@@ -151,17 +151,17 @@ public class LocationController {
         float result=0;
         String type=CheckType(id);
         if(type.equals("Building")){
-            for(Building item:buildingList){
+            for(Location item:buildingList){
                 if(item.getId()==id) return item.getHeating();
             }
         }
         else if(type.equals("Level")){
-            for(Level item:levelList){
+            for(Location item:levelList){
                 if(item.getId()==id) return item.getHeating();
             }
         }
         else if(type.equals("Room")){
-            for(Room item:roomList){
+            for(Location item:roomList){
                 if(item.getId()==id) return item.getHeating();
             }
         }
@@ -174,7 +174,7 @@ public class LocationController {
         float area=0;
         String type=CheckType(id);
         if(type.equals("Building")){
-            for(Building item:buildingList){
+            for(Location item:buildingList){
                 if(item.getId()==id){
                     light=item.getLight();
                     area=item.getArea();
@@ -182,7 +182,7 @@ public class LocationController {
             }
         }
         else if(type.equals("Level")){
-            for(Level item:levelList){
+            for(Location item:levelList){
                 if(item.getId()==id) {
                     light=item.getLight();
                     area=item.getArea();
@@ -190,7 +190,7 @@ public class LocationController {
             }
         }
         else if(type.equals("Room")){
-            for(Room item:roomList){
+            for(Location item:roomList){
                 if(item.getId()==id) {
                     light=item.getLight();
                     area=item.getArea();
@@ -206,7 +206,7 @@ public class LocationController {
         float cubature=0;
         String type=CheckType(id);
         if(type.equals("Building")){
-            for(Building item:buildingList){
+            for(Location item:buildingList){
                 if(item.getId()==id){
                     heating=item.getHeating();
                     cubature=item.getCubature();
@@ -214,7 +214,7 @@ public class LocationController {
             }
         }
         else if(type.equals("Level")){
-            for(Level item:levelList){
+            for(Location item:levelList){
                 if(item.getId()==id) {
                     heating=item.getHeating();
                     cubature=item.getCubature();
@@ -222,7 +222,7 @@ public class LocationController {
             }
         }
         else if(type.equals("Room")){
-            for(Room item:roomList){
+            for(Location item:roomList){
                 if(item.getId()==id) {
                     heating=item.getHeating();
                     cubature=item.getCubature();
@@ -240,18 +240,18 @@ public class LocationController {
     public Location getLocationByID(@PathVariable("id") int id) {
         // log the parameters
         logger.debug(String.valueOf(id));
-        for (Building building : buildingList) {
+        for (Location building : buildingList) {
             if (building.getId() == id) {
 
                 return building;
             }
         }
-        for (Level level : levelList) {
+        for (Location level : levelList) {
             if (level.getId() == id) {
                 return level;
             }
         }
-        for (Room room : roomList) {
+        for (Location room : roomList) {
             if (room.getId() == id) {
                 return room;
             }
@@ -320,7 +320,7 @@ public class LocationController {
         JSONObject jsonObject = new JSONObject(json);
         //System.out.println(jsonObject);
         String wiadomosc="";
-        for(Building item:buildingList){
+        for(Location item:buildingList){
             if (item.getId()==jsonObject.getInt("id")){
                 buildingList.remove(item);
                 wiadomosc= "Budynek usuniety";
@@ -328,14 +328,14 @@ public class LocationController {
             }
         }
 
-        for(Level item:levelList){
+        for(Location item:levelList){
            if (item.getId()==jsonObject.getInt("id")){
                levelList.remove(item);
                wiadomosc= "Poziom usuniety";
                break;
            }
         }
-        for(Room item:roomList){
+        for(Location item:roomList){
             if (item.getId()==jsonObject.getInt("id")){
                 roomList.remove(item);
                 wiadomosc= "Pomieszczenie usuniete";
@@ -358,7 +358,7 @@ public class LocationController {
         JSONObject jsonObject = new JSONObject(json);
         String wiadomosc="";
         if(("Building").equals(jsonObject.getString("type"))){
-            for(Building item:buildingList) {
+            for(Location item:buildingList) {
                 if (item.getId() == jsonObject.getInt("id")) {
                     item.setName(jsonObject.getString("name"));
                     wiadomosc = "Budynek zaktualizowany";
@@ -367,7 +367,7 @@ public class LocationController {
             }
         }
         if(("Level").equals(jsonObject.getString("type"))){
-            for(Level item:levelList) {
+            for(Location item:levelList) {
                 if (item.getId() == jsonObject.getInt("id")) {
                     item.setName(jsonObject.getString("name"));
                     wiadomosc = "Poziom zaktualizowany";
@@ -376,7 +376,7 @@ public class LocationController {
             }
         }
         if(("Room").equals(jsonObject.getString("type"))){
-            for(Room item:roomList) {
+            for(Location item:roomList) {
                 if (item.getId() == jsonObject.getInt("id")) {
                     item.setName(jsonObject.getString("name"));
                     item.setArea(Float.parseFloat(jsonObject.getString("area")));

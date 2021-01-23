@@ -115,9 +115,10 @@ public class Room extends Location {
      * @return Zwraca poziom na ktorym jest pokoj
      * */
 
-    public int getLevelid() {
+    public int getFatherID() {
         return Levelid;
     }
 }
+
 
 

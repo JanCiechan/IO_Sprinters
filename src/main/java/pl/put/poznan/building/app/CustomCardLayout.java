@@ -48,11 +48,26 @@ public class CustomCardLayout extends JFrame {
         menuPanel.addAddLocationActionListener(e -> cardLayout.show(cardPanel, "2"));
         menuPanel.addGetInfoActionListener(e -> {
             cardLayout.show(cardPanel, "4");
-            getInfoPanelBuildings.setAmountLabelText(String.valueOf(countBuildings()));
-            getInfoPanelBuildings.setAreaLabelText(String.valueOf(calculateArea(selectBuildingpanel.getCurrentLocation(), Building.class)));
-            getInfoPanelBuildings.setCubatureLabelText(String.valueOf(calculateCubature(selectBuildingpanel.getCurrentLocation(), Building.class)));
-            getInfoPanelBuildings.setHeatingLabelText(String.valueOf(calculateHeating(selectBuildingpanel.getCurrentLocation(), Building.class)));
-            getInfoPanelBuildings.setLightLabelText(String.valueOf(calculateArea(selectBuildingpanel.getCurrentLocation(), Building.class)));
+            int x= countBuildings();
+            double area=0,cube=0,powerusage=0,lightintensity=0;
+            getInfoPanelBuildings.setAmountLabelText(String.valueOf(x));
+            String json="";
+            Gson gson=new Gson();
+            json = ConnectionProvider.getDataFromRestApi("Buildings");
+            Building[] budynki = gson.fromJson(json, Building[].class);
+            for(Building b : budynki) {
+            area+=Double.parseDouble(ConnectionProvider.getDataFromRestApi("area/"+String.valueOf(b.getId())));
+            cube+=Double.parseDouble(ConnectionProvider.getDataFromRestApi("cube/"+String.valueOf(b.getId())));
+            powerusage+=Double.parseDouble(ConnectionProvider.getDataFromRestApi("powerusage/"+String.valueOf(b.getId())));
+            lightintensity+=Double.parseDouble(ConnectionProvider.getDataFromRestApi("lightinensity/"+String.valueOf(b.getId())));
+            }
+            getInfoPanelBuildings.setAreaLabelText(String.valueOf(area));
+            getInfoPanelBuildings.setCubatureLabelText(String.valueOf(cube));
+            getInfoPanelBuildings.setHeatingLabelText(String.valueOf(powerusage));
+            getInfoPanelBuildings.setLightLabelText(String.valueOf(lightintensity));
+
+
+
         });
         menuPanel.addGoBuildingsActionListener(e -> {
             cardLayout.show(cardPanel, "5");
@@ -152,11 +167,12 @@ public class CustomCardLayout extends JFrame {
         selectBuildingpanel.addGetInfoInfoActionListener(e -> {
             cardLayout.show(cardPanel, "6");
             int i = selectBuildingpanel.getCurrentLocation();
+
             getInfoPanelLevels.setAmountLabelText(String.valueOf(countLevels(i)));
-            getInfoPanelLevels.setAreaLabelText(String.valueOf(calculateArea(i, Building.class)));
-            getInfoPanelLevels.setCubatureLabelText(String.valueOf(calculateCubature(i, Building.class)));
-            getInfoPanelLevels.setHeatingLabelText(String.valueOf(calculateHeating(i, Building.class)));
-            getInfoPanelLevels.setLightLabelText(String.valueOf(calculateArea(i, Building.class)));
+            getInfoPanelLevels.setAreaLabelText(ConnectionProvider.getDataFromRestApi("area/"+String.valueOf(i)));
+            getInfoPanelLevels.setCubatureLabelText(ConnectionProvider.getDataFromRestApi("cube/"+String.valueOf(i)));
+            getInfoPanelLevels.setHeatingLabelText(ConnectionProvider.getDataFromRestApi("powerusage/"+String.valueOf(i)));
+            getInfoPanelLevels.setLightLabelText(ConnectionProvider.getDataFromRestApi("lightinensity/"+String.valueOf(i)));
 
         });
 
@@ -185,12 +201,12 @@ public class CustomCardLayout extends JFrame {
         Level level = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)),Level.class);
 
 
-        return level.getAmountOfRooms();
+        return level.getAmountOfUnderlings();
     }
     private int countLevels(int id){
         Gson gson=new Gson();
         Building building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)),Building.class);
-        return building.getAmountOfLevels();
+        return building.getAmountOfUnderlings();
     }
 
     private Building[] getLocations(String type){
@@ -207,22 +223,22 @@ public class CustomCardLayout extends JFrame {
 
     private float calculateArea(int id, Class<?> cls){
         Gson gson=new Gson();
-        if (Building.class.equals(cls)) {
-            Building building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Building.class);
+        if (Location.class.equals(cls)) {
+            Location building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Location.class);
             return building.getArea();
-        } else if (Level.class.equals(cls)) {
-            Level level = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Level.class);
+        } else if (Location.class.equals(cls)) {
+            Location level = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Location.class);
             return level.getArea();
         } else {
-            Room room = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Room.class);
+            Location room = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Location.class);
             return room.getArea();
         }
     }
 
     private float calculateCubature(int id, Class<?> cls){
         Gson gson=new Gson();
-        if (Building.class.equals(cls)) {
-            Building building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Building.class);
+        if (Location.class.equals(cls)) {
+            Location building = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Location.class);
             return building.getCubature();
         } else if (Level.class.equals(cls)) {
             Level level = gson.fromJson(ConnectionProvider.getDataFromRestApi(String.valueOf(id)), Level.class);
@@ -278,7 +294,7 @@ public class CustomCardLayout extends JFrame {
         Gson gson = new Gson();
         Building building = gson.fromJson(json, Building.class);
 
-        for(Level l: building.levels){
+        for(Location l: building.levels){
             levelNames.add(l.getName());
            // System.out.println(l.getName());
         }
@@ -293,7 +309,7 @@ public class CustomCardLayout extends JFrame {
         Gson gson = new Gson();
         Level level = gson.fromJson(json, Level.class);
 
-        for(Room r: level.rooms){
+        for(Location r: level.rooms){
             levelNames.add(r.getName());
           //  System.out.println(r.getName());
         }
