@@ -1,5 +1,6 @@
 package pl.put.poznan.building.logic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -104,6 +105,9 @@ public class Location implements Location_interface {
     @Override
     public int getFatherID() {
         return 0;
+    }
+    public List<Location> getUnderlings() {
+        return new ArrayList() ;
     }
 
     @Override

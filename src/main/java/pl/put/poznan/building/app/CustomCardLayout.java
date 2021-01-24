@@ -43,6 +43,7 @@ public class CustomCardLayout extends JFrame {
         SelectLocationPanel selectBuildingpanel = new SelectLocationPanel(SelectLocationPanel.TYPE_BUILDING);
         SelectLocationPanel selectLevelpanel = new SelectLocationPanel(SelectLocationPanel.TYPE_LEVEL);
         SelectLocationPanel selectRoompanel = new SelectLocationPanel(SelectLocationPanel.TYPE_ROOM);
+        PowerusageRoomsPanel powerusageRoomsPanel = new PowerusageRoomsPanel();
 
         menuPanel.addServerOutputButtonActionListener(e -> cardLayout.show(cardPanel, "3"));
         menuPanel.addAddLocationActionListener(e -> cardLayout.show(cardPanel, "2"));
@@ -175,6 +176,17 @@ public class CustomCardLayout extends JFrame {
             getInfoPanelLevels.setLightLabelText(ConnectionProvider.getDataFromRestApi("lightinensity/"+String.valueOf(i)));
 
         });
+        getInfoPanelLevels.addFindInfoActionListener(e -> {
+            cardLayout.show(cardPanel, "13");
+            int i = selectBuildingpanel.getCurrentLocation();
+            powerusageRoomsPanel.setLabels(ConnectionProvider.getDataFromRestApi("powerusage/over/"+getInfoPanelLevels.getValue()+"/"+String.valueOf(i)));
+            powerusageRoomsPanel.showInfo();
+        });
+        powerusageRoomsPanel.addBackActionListener(e -> {
+            cardLayout.show(cardPanel, "6");
+            int i = selectBuildingpanel.getCurrentLocation();
+            powerusageRoomsPanel.clear();
+        });
 
         cardPanel.add(menuPanel,"1");
         cardPanel.add(addBuildingPanel,"2");
@@ -188,6 +200,7 @@ public class CustomCardLayout extends JFrame {
         cardPanel.add(selectLevelpanel,"10");
         cardPanel.add(selectRoompanel,"11");
         cardPanel.add(getInfoPanelRoom,"12");
+        cardPanel.add(powerusageRoomsPanel,"13");
 
         getContentPane().add(cardPanel, BorderLayout.CENTER);
     }

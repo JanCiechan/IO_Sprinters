@@ -8,12 +8,13 @@ public class GetInfoPanel extends JPanel {
 
 
     private final JButton back;
+    private final JButton find;
     private JLabel amountLabel;
     private JLabel area;
     private JLabel heating;
     private JLabel cubature;
     private JLabel light;
-
+    private JTextField powerValue;
 
     private static final String BUILDINGS_INFO = "Informacje o wszystkich budynkach";
     private static final String BUILDINGS_AMOUNT = "Ilość budynków: ";
@@ -48,7 +49,7 @@ public class GetInfoPanel extends JPanel {
         JLabel buildingTitleLabel =  new JLabel();
         JLabel label = new JLabel();
 
-        JLabel areaLabel = new JLabel("Powierchnia");
+        JLabel areaLabel = new JLabel("Powierzchnia");
         JLabel heatingLabel = new JLabel("Energia ogrzewania");
         JLabel cubatureLabel = new JLabel("Kubatura");
         JLabel lightLabel = new JLabel("Moc oświetlenia");
@@ -76,6 +77,7 @@ public class GetInfoPanel extends JPanel {
 
 
         back = new JButton("Wróć");
+        find = new JButton("Znajdź");
         label.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         buildingTitleLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         back.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -128,6 +130,24 @@ public class GetInfoPanel extends JPanel {
         gbc.gridy = 5;
         panel.add(light, gbc);
 
+        if(type == TYPE_LEVEL) {
+            JLabel powerOver = new JLabel("Zużycie energii ponad");
+            gbc.gridx = 0;
+            gbc.gridy = 6;
+            panel.add(powerOver, gbc);
+
+            powerValue = new JTextField();
+            powerValue.setText("10");
+            gbc.gridx = 1;
+            gbc.gridy = 6;
+            panel.add(powerValue, gbc);
+
+
+            gbc.gridx = 2;
+            gbc.gridy = 6;
+            panel.add(find, gbc);
+        }
+
         gbcButtons4.insets = new Insets(30,5,30,5);
         gbcButtons4.gridy = 0;
         gbcButtons4.gridx = 0;
@@ -146,7 +166,9 @@ public class GetInfoPanel extends JPanel {
     public void addBackInfoActionListener(ActionListener actionListener){
         back.addActionListener(actionListener);
     }
-
+    public void addFindInfoActionListener(ActionListener actionListener){
+        find.addActionListener(actionListener);
+    }
     public void setAmountLabelText(String text) {
         this.amountLabel.setText(text);
     }
@@ -162,5 +184,7 @@ public class GetInfoPanel extends JPanel {
     public void setCubatureLabelText(String text) {
         this.cubature.setText(text);
     }
-
+    public String getValue(){
+        return powerValue.getText();
+    }
 }

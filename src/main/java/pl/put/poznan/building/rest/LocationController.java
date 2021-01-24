@@ -233,7 +233,28 @@ public class LocationController {
 
     }
 
-
+    @RequestMapping(method=RequestMethod.GET,value="powerusage/over/{value}/{id}",produces="application/json")
+    public List<String> getPowerUsageOverValue(@PathVariable("value")int value, @PathVariable("id")int id ){
+        float heating=0;
+        float cubature=0;
+        List<String> roomsUsages =new ArrayList<>();
+        List<Location> roomsInLevel;
+        for(Location item:levelList) {
+            if (item.getFatherID()==id){
+                roomsInLevel = item.getUnderlings();
+                for(Location room:roomsInLevel){
+                    heating=room.getHeating();
+                    cubature=room.getCubature();
+                    if (heating/cubature >= value){
+                        roomsUsages.add(room.getName());
+                        roomsUsages.add(Float.toString(heating/cubature));
+                        roomsUsages.add(item.getName());
+                    }
+                }
+            }
+        }
+        return roomsUsages;
+    }
 
     //@RequestMapping(method = RequestMethod.GET,value="{id}", produces = "application/json")
     @GetMapping("/{id}")

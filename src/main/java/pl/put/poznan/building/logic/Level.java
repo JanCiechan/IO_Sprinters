@@ -112,4 +112,10 @@ public class Level extends Location {
     public int getAmountOfUnderlings() {
         return rooms.size();
     }
+
+    /**
+     * Pozwala pobrac pomieszczenia na poziomie
+     * @return Zwraca pomieszczenia na poziomie
+     * */
+    public List<Location> getUnderlings() { return rooms;}
 }
