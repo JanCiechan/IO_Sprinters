@@ -11,6 +11,8 @@ public class MenuPanel extends JPanel {
     JButton addLocation;
     JButton getInfo;
     JButton goBuildings;
+    JButton getCost;
+    JLabel powerCost;
 
     public MenuPanel(){
          JLabel label = new JLabel("Witaj Administratorze!");
@@ -19,6 +21,8 @@ public class MenuPanel extends JPanel {
          addLocation = new JButton("Dodaj lokacje");
          getInfo = new JButton("Pobierz informacje");
          serverOutputButton = new JButton("Pokaz dane serwera");
+         getCost = new JButton("Aktualna cena prądu");
+         powerCost = new JLabel();
 
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
@@ -29,6 +33,7 @@ public class MenuPanel extends JPanel {
         addLocation.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         getInfo.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         goBuildings.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        getCost.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
 
         addLocation.addActionListener(e -> {
 
@@ -52,6 +57,11 @@ public class MenuPanel extends JPanel {
 
         gbc.gridy = 4;
         this.add(serverOutputButton, gbc);
+
+        gbc.gridy = 5;
+        this.add(getCost, gbc);
+        gbc.gridx = 1;
+        this.add(powerCost, gbc);
     }
 
     public void addServerOutputButtonActionListener(ActionListener actionListener){
@@ -68,5 +78,14 @@ public class MenuPanel extends JPanel {
 
     public void addGoBuildingsActionListener(ActionListener actionListener){
         goBuildings.addActionListener(actionListener);
+    }
+
+    public void addGetPowerCost(ActionListener actionListener){
+        getCost.addActionListener(actionListener);
+    }
+
+    public void setPowerCost(String powerCost){
+
+        this.powerCost.setText(powerCost+" $/kWH");
     }
 }

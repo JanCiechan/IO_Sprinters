@@ -188,6 +188,12 @@ public class CustomCardLayout extends JFrame {
             powerusageRoomsPanel.clear();
         });
 
+        menuPanel.addGetPowerCost(e -> {
+
+            menuPanel.setPowerCost(PowerCost.getPowerCost());
+
+        });
+
         cardPanel.add(menuPanel,"1");
         cardPanel.add(addBuildingPanel,"2");
         cardPanel.add(serverOutputPanel,"3");
