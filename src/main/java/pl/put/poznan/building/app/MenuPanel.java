@@ -7,12 +7,12 @@ import java.awt.event.ActionListener;
 
 public class MenuPanel extends JPanel {
 
-    JButton serverOutputButton;
-    JButton addLocation;
-    JButton getInfo;
-    JButton goBuildings;
-    JButton getCost;
-    JLabel powerCost;
+    public JButton serverOutputButton;
+    public JButton addLocation;
+    public JButton getInfo;
+    public JButton goBuildings;
+    public JButton getCost;
+    public JLabel powerCost;
 
     public MenuPanel(){
          JLabel label = new JLabel("Witaj Administratorze!");

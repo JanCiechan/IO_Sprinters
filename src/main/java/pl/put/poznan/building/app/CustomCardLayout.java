@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.desktop.SystemEventListener;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -189,8 +191,13 @@ public class CustomCardLayout extends JFrame {
         });
 
         menuPanel.addGetPowerCost(e -> {
-
-            menuPanel.setPowerCost(PowerCost.getPowerCost());
+            URL url = null;
+            try {
+                url = new URL("https://developer.nrel.gov/api/utility_rates/v3.json?api_key=DEMO_KEY&lat=35.45&lon=-82.98");
+            } catch (MalformedURLException malformedURLException) {
+                malformedURLException.printStackTrace();
+            }
+            menuPanel.setPowerCost(PowerCost.getPowerCost(url));
 
         });
 
