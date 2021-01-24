@@ -7,9 +7,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
-
+/**
+ * Służy do pobrania ceny prądu z internetu
+ *
+ */
 public class PowerCost {
-
+    /**
+     * Pobiera cene prądu z internetu
+     * @param url adres sieciowy do pobrania danych o cenie prądu
+     *
+     * */
     public static String getPowerCost(URL url){
 
         StringBuilder data = new StringBuilder();
@@ -39,6 +46,11 @@ public class PowerCost {
         String data2 = data.toString();
         return data2.substring(410,416);
     }
+    /**
+     * Tworzy połączenie na danym adresie url
+     * @param url adres sieciowy do pobrania danych o cenie prądu
+     *
+     * */
     protected static HttpURLConnection createHttpURLConnection(URL url)
             throws IOException {
         return (HttpURLConnection) url.openConnection();

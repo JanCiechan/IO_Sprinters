@@ -15,9 +15,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
+/**
+ * Odpowiada za połączenie między aplikacją a serwerem, określa poszczególne rządania
+ */
 public class ConnectionProvider {
-
+    /**
+     * Odpowiada za pobranie danych z serwera
+     * @param request nazwa konkretnego żądania
+     */
     public static String getDataFromRestApi(String request){
         StringBuilder data = new StringBuilder();
 
@@ -53,7 +58,10 @@ public class ConnectionProvider {
 
         return data.toString();
     }
-
+    /**
+     * Odpowiada za umieszczenie danych na serwerze
+     * @param jsonInputString json string określający umieszczane dane
+     */
     public static String postDataToRestApi(String jsonInputString){
 
         StringBuilder result = new StringBuilder();
@@ -85,7 +93,10 @@ public class ConnectionProvider {
         }
         return result.toString();
     }
-
+    /**
+     * Odpowiada za zaktualizowanie danych na serwerze
+     * @param jsonInputString json string określający aktualizowane dane
+     */
     public static String putDataToRestApi(String jsonInputString){
 
         StringBuilder result = new StringBuilder();
@@ -117,7 +128,10 @@ public class ConnectionProvider {
         }
         return result.toString();
     }
-
+    /**
+     * Odpowiada za usunięcie danych z serwera
+     * @param jsonInputString json string określający dane do usunięcia
+     */
     public static String deleteDataFromRestApi(String jsonInputString){
 
         StringBuilder result = new StringBuilder();
@@ -150,10 +164,5 @@ public class ConnectionProvider {
         return result.toString();
     }
 
-    /*@Bean
-    public void start() throws IOException {
-        String file = "src/main/resources/data.json";
-        String jsonFile = new String(Files.readAllBytes(Paths.get(file)));
-        postDataToRestApi(file);
-    }*/
+
 }

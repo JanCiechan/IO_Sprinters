@@ -161,7 +161,7 @@ public class SelectLocationPanel extends JPanel {
                     currentLocation=rooms[0].getId();
                     buildingsList.addActionListener(e -> {
                         JComboBox cb = (JComboBox)e.getSource();
-                        cb.setSelectedIndex(0);
+                        //cb.setSelectedIndex(0);
                         String name = (String)cb.getSelectedItem();
                         for(Room b: rooms){
                             if (b.getName().equals(name)){
